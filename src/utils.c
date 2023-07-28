@@ -50,7 +50,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-
 //checks if str ends with key
 //key needs to be larger than 0 characters
 int	ends_with(char *str, char *key)
@@ -65,4 +64,55 @@ int	ends_with(char *str, char *key)
 	if (i == ft_strlen(key))
 		return (1);
 	return (0);
+}
+
+static void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		*(unsigned char *)(s + i) = '\0';
+		i++;
+	}
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	char	*ptr;
+	size_t	val;
+
+	val = nmemb * size;
+	if (nmemb != 0 && val / nmemb != size)
+		return (NULL);
+	ptr = malloc(val);
+	if (!ptr)
+		return (NULL);
+	ft_bzero(ptr, val);
+	return ((void *)ptr);
+}
+
+char	*ft_strdup(const char *s)
+{
+	int		i;
+	int		j;
+	char	*tab;
+
+	i = 0;
+	j = 0;
+	while (s[i] != '\0')
+	{
+		i++;
+	}
+	tab = malloc((sizeof(char) * i) + 1);
+	if (!tab)
+		return (NULL);
+	while (s[j] != '\0')
+	{
+		*(tab + j) = *(s + j);
+		j++;
+	}
+	*(tab + j) = '\0';
+	return (tab);
 }

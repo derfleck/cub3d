@@ -1,3 +1,0 @@
-/nfs/homes/mleitner/Projects/Core/cub3d/cmake-build-debug/CMakeFiles/cub3d.dir
-/nfs/homes/mleitner/Projects/Core/cub3d/cmake-build-debug/CMakeFiles/edit_cache.dir
-/nfs/homes/mleitner/Projects/Core/cub3d/cmake-build-debug/CMakeFiles/rebuild_cache.dir

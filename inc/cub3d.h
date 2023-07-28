@@ -62,5 +62,6 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 int		ends_with(char *str, char *key);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
+void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif
