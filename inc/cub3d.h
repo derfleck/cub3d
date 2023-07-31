@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleitner <mleitner@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/07/31 12:38:57 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:51:37 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 # include "../mlx_linux/mlx.h"
+# include "../libft/libft.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
@@ -35,7 +36,6 @@
 typedef struct s_pt {
 	float_t		x;
 	float_t		y;
-	float_t		z;
 	struct s_pt	*right;
 	struct s_pt	*up;
 }	t_pt;
@@ -58,14 +58,36 @@ typedef struct s_map {
 	int		x_max;
 	int		y_max;
 	char	*str;
+	t_mlx	*mlx_ptr;
+	int		floor;
+	int		ceiling;
+	int		mini_col;
 }	t_map;
 
-char	*get_next_line(int fd);
+typedef struct s_player {
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	time;
+	double	prev_time;
+}	t_player;
+
+//struct for line points
+typedef struct s_line {
+	int	x0;
+	int	x1;
+	int	y0;
+	int	y1;
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+}	t_line;
 
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
-int		ends_with(char *str, char *key);
-size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
-void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif
