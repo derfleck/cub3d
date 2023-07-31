@@ -6,7 +6,7 @@
 #    By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 14:51:37 by mleitner          #+#    #+#              #
-#    Updated: 2023/07/31 13:13:38 by mleitner         ###   ########.fr        #
+#    Updated: 2023/07/31 13:52:30 by mleitner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,14 +24,20 @@ OBJSDIR			:= ./obj/
 OBJSLIST		:= ${SRCSLIST:.c=.o}
 OBJS			:= $(addprefix ${OBJSDIR}, ${OBJSLIST})
 
+LIBFTDIR		:= ./libft/
+LIBFT			:= ${LIBFTDIR}libft.a
+
 MLXDIR			:= ./mlx_linux/
 MLX				:= ${MLXDIR}libmlx.a
 
-LIBS			:= -L${MLXDIR} -lmlx -lXext -lX11 -lm
-INCS			:= -I${HEADDIR} -I${MLXDIR}
+LIBS			:= -L${LIBFTDIR} -L${MLXDIR} -lft -lmlx -lXext -lX11 -lm
+INCS			:= -I${HEADDIR} -I${LIBFTDIR} -I${MLXDIR}
 
-${NAME}:		${MLX} ${OBJSDIR} ${OBJS}
+${NAME}:		${MLX} ${LIBFT} ${OBJSDIR} ${OBJS}
 				${CC} ${FLAGS} ${DEBUG} ${OBJS} -o ${NAME} ${LIBS} ${INCS}
+
+${LIBFT}:
+				make -C ${LIBFTDIR}
 
 ${MLX}:
 				make -C ${MLXDIR}
@@ -48,6 +54,7 @@ all:			${NAME}
 
 clean:
 				${RM} -r ${OBJSDIR}
+				make -C ${LIBFTDIR} clean
 				make -C ${MLXDIR} clean
 
 fclean:			clean
