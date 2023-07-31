@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleitner <mleitner@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
+/*   Updated: 2023/07/31 12:38:57 by mleitner         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 # include "../mlx_linux/mlx.h"
@@ -47,14 +59,6 @@ typedef struct s_map {
 	int		y_max;
 	char	*str;
 }	t_map;
-
-typedef enum e_dir {
-	FLOOR,
-	NORTH,
-	SOUTH,
-	EAST,
-	WEST
-}	t_dir;
 
 char	*get_next_line(int fd);
 

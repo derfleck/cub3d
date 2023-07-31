@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
+/*   Updated: 2023/07/31 13:13:15 by mleitner         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
+/*
 static void	err_before_mall(char *str)
 {
 	printf("%s\n", str);
@@ -58,4 +71,10 @@ int	main(int argc, char **argv)
 	if (fd < 0)
 		err_before_mall("Couldn't open provided file");
 	map = parse_map(fd);
+}
+*/
+
+int main(int argc, char **argv)
+{
+	
 }
