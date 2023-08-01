@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/07/31 13:50:03 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/07/31 14:36:05 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
 /*
-static void	err_before_mall(char *str)
-{
-	printf("%s\n", str);
-	exit (1);
-}
-
 //combines string with new lines read of file
 char	*line_unite(char *str1, char *str2)
 {
@@ -59,22 +53,14 @@ static t_map	*parse_map(int fd)
 		free(tmp);
 	return (map);
 }
+*/
 
 int	main(int argc, char **argv)
 {
-	int		fd;
 	t_map	*map;
 
-	if (argc <= 1 || argc > 2 || (argc == 2 && !ends_with(argv[1], ".cub")))
-		err_before_mall("Only .cub file required as parameter");
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-		err_before_mall("Couldn't open provided file");
-	map = parse_map(fd);
-}
-*/
-
-int main(int argc, char **argv)
-{
-	
+	map = check_input(argc, argv);
+	if (!map)
+		return (1);
+	return (0);
 }

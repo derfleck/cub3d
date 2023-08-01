@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleitner <mleitner@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/07/31 12:38:57 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/01 09:47:13 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,30 @@ typedef struct s_mlx {
 }	t_mlx;
 
 typedef struct s_map {
-	int		x_max;
+	char	**map;
+	char	start_orientation;
+	int		start_position_x;
+	int		start_position_y;
 	int		y_max;
-	char	*str;
+	char	*so;
+	char	*we;
+	char	*ea;
+	char	*no;
 }	t_map;
 
-char	*get_next_line(int fd);
-
-void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
+/* Check input */
+t_map	*check_input(int argc, char **argv);
+int		check_file(char *file);
+int		check_before_start(argc, argv);
 int		ends_with(char *str, char *key);
-size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
-void	*ft_calloc(size_t nmemb, size_t size);
+
+/* Error handling */
+void	err_before_mall(char *str);
+
+/* Parsing */
+int		rgb_to_hex(char *line);
+
+/*  */
+void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 #endif

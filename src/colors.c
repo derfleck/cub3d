@@ -37,6 +37,8 @@ int	rgb_to_hex(char *line)
 			rgb[j] = rgb[j] + (line[i] - '0');
 			i++;
 		}
+		if (rgb[j] > 255 || rgb[j] < 0)
+			return (-1);
 		j++;
 	}
 	return (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
