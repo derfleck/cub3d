@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/07/31 19:16:58 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/01 12:16:39 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	draw_background(t_map *map)
 
 /*
 //supposed to draw square for minimap
+//always use top left position to start (e.g. 0/0)
 //TODO: check coordinate system
 void	square(int x, int y, int len, t_map *map)
 {

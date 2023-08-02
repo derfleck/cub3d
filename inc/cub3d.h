@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/07/31 18:51:37 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/01 12:14:23 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,5 @@ typedef struct s_line {
 	int	sy;
 	int	err;
 }	t_line;
-
-void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 #endif
