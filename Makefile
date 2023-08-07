@@ -6,7 +6,7 @@
 #    By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 14:51:37 by mleitner          #+#    #+#              #
-#    Updated: 2023/07/31 13:52:30 by mleitner         ###   ########.fr        #
+#    Updated: 2023/08/07 15:25:38 by mleitner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ FLAGS			:= -Wall -Wextra -Werror
 DEBUG			:= -g
 
 SRCSDIR			:= ./src/
-SRCSLIST		:= main.c
+SRCSLIST		:= main.c\
+					minimap.c
 SRCS			:= $(addprefix ${SRCSDIR}, ${SRCSLIST})
 
 OBJSDIR			:= ./obj/

@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/01 12:14:23 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:42:48 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define YELLOW 0x00FFFF00
 # define WHITE 0x00FFFFFF
 # define BUFFER_SIZE 1000
+# define X 0
+# define Y 1
 
 //structure for coordinates, using 2D single linked list
 typedef struct s_pt {
@@ -54,14 +56,23 @@ typedef struct s_mlx {
 	t_img	*img;
 }	t_mlx;
 
+typedef enum e_dir {
+	NORTH = 0,
+	EAST,
+	SOUTH,
+	WEST
+}	t_dir;
+
 typedef struct s_map {
-	int		x_max;
-	int		y_max;
-	char	*str;
-	t_mlx	*mlx_ptr;
-	int		floor;
+	int		**map;
+	int		look_dir[2];
+	int		player[2];
+	int		mini_max[2];
+	int		max[2];
+	char	**tex;
 	int		ceiling;
-	int		mini_col;
+	int		floor;
+	t_mlx	*mlx;
 }	t_map;
 
 typedef struct s_player {
@@ -87,5 +98,16 @@ typedef struct s_line {
 	int	sy;
 	int	err;
 }	t_line;
+
+//draw functions
+void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
+
+//minimap functions
+void	draw_cube(t_img *img, int pos_x, int pos_y, int len);
+void	free_int_arr(int **arr, int size);
+int		**get_int_array(int x, int y);
+int		**get_minimap(t_map *map);
+void	set_dimensions(t_map *map);
+void	draw_minimap(t_map *map);
 
 #endif

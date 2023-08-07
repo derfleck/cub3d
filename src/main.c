@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/01 12:16:39 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:42:50 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,16 @@ t_img	*create_img(int x, int y, void *mlx)
 	return (img);
 }
 
+//draw single line for wall in raycaster
+void	draw_straight(t_map *map, int x, int y, int len)
+{
+	int	y1;
+
+	y1 = y + len;
+	while (y < y1)
+		ft_mlx_pixel_put(map->mlx->img, x, y++, RED);
+}
+
 //draws floor and ceiling
 void	draw_background(t_map *map)
 {
@@ -52,7 +62,7 @@ void	draw_background(t_map *map)
 		if (col == map->ceiling && y >= HEIGHT / 2)
 			col = map->floor;
 		while (x <= WIDTH)
-			ft_mlx_pixel_put(map->mlx_ptr->img, x++, y, col);
+			ft_mlx_pixel_put(map->mlx->img, x++, y, col);
 		x = 0;
 		y++;
 	}
@@ -92,44 +102,57 @@ int	loop_draw(t_map *map)
 
 void	create_window(t_map	*map)
 {
-	map->mlx_ptr = malloc(sizeof(t_mlx));
-	if (!map->mlx_ptr)
+	map->mlx = malloc(sizeof(t_mlx));
+	if (!map->mlx)
 		return ;
-	map->mlx_ptr->mlx = mlx_init();
-	map->mlx_ptr->win = mlx_new_window(map->mlx_ptr->mlx, WIDTH, HEIGHT, "cub3d");
-	map->mlx_ptr->img = create_img(WIDTH, HEIGHT, map->mlx_ptr->mlx);
+	map->mlx->mlx = mlx_init();
+	map->mlx->win = mlx_new_window(map->mlx->mlx, WIDTH, HEIGHT, "cub3d");
+	map->mlx->img = create_img(WIDTH, HEIGHT, map->mlx->mlx);
 	map->ceiling = GREEN;
 	map->floor = RED;
 	draw_background(map);
-	mlx_put_image_to_window(map->mlx_ptr->mlx, map->mlx_ptr->win, map->mlx_ptr->img->img, 0, 0);
-	mlx_loop(map->mlx_ptr->mlx);
+	draw_minimap(map);
+	mlx_put_image_to_window(map->mlx->mlx, map->mlx->win, map->mlx->img->img, 0, 0);
+	mlx_loop(map->mlx->mlx);
 	//mlx_loop_hook(map->mlx_ptr, loop_draw, map);
 }
 
-/*
-t_map	*create_map(void)
-{
-	int	dummy[8][8] = {{0, 0, 1, 1, 1, 0, 0, 1},
-						{1, 1, 0, 0, 0, 1, 1, 1},
-						{1, 0, 0, 0, 0, 0, 1, 0},
-						{1, 0, 1, 0, 0, 1, 1, 1},
-						{1, 1, 0, 0, 0, 0, 1, 0},
-						{0, 1, 0, 0, 0, 0, 1, 1},
-						{1, 1, 0, 0, 0, 0, 1, 0},
-						{1, 1, 1, 1, 1, 1, 1, 1}};
-	t_map	*map;
-	map = malloc(sizeof(t_map));
-	map->x_max = sizeof(dummy[0]) / sizeof(int);
-	map->y_max = sizeof(dummy) / (sizeof(int) * map->x_max);
-	
-}
-*/
 
 int	main(int argc, char **argv)
 {
+	static t_map	map;
+	int				i;
+	int				j;
+
+	i = 0;
+	map.map = get_int_array(8, 8);
+	int map_data[8][8] = {{0, 0, 1, 1, 1, 0, 0, 1},
+	{1, 1, 0, 0, 0, 1, 1, 1},
+	{1, 0, 0, 0, 0, 0, 1, 0},
+	{1, 0, 1, 0, 0, 1, 1, 1},
+	{1, 1, 0, 0, 0, 0, 1, 0},
+	{0, 1, 0, 0, 0, 0, 1, 1},
+	{1, 1, 0, 0, 0, 0, 1, 0},
+	{1, 1, 1, 1, 1, 1, 1, 1}};
+	while (i < 8)
+	{
+		j = 0;
+		while (j < 8)
+		{
+			map.map[i][j] = map_data[i][j];
+			j++;
+		}
+		i++;
+	}
+	map.ceiling = BLUE;
+	map.floor = BLACK;
+	map.max[X] = 8;
+	map.max[Y] = 8;
+	map.player[X] = 4;
+	map.player[Y] = 6;
+
 	(void)argc;
 	(void)argv;
-	static t_map	map;
 
 	create_window(&map);
 }
