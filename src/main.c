@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/07 16:42:50 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:00:31 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ void	create_window(t_map	*map)
 	map->mlx->mlx = mlx_init();
 	map->mlx->win = mlx_new_window(map->mlx->mlx, WIDTH, HEIGHT, "cub3d");
 	map->mlx->img = create_img(WIDTH, HEIGHT, map->mlx->mlx);
-	map->ceiling = GREEN;
-	map->floor = RED;
 	draw_background(map);
 	draw_minimap(map);
 	mlx_put_image_to_window(map->mlx->mlx, map->mlx->win, map->mlx->img->img, 0, 0);
@@ -132,7 +130,7 @@ int	main(int argc, char **argv)
 	{1, 0, 1, 0, 0, 1, 1, 1},
 	{1, 1, 0, 0, 0, 0, 1, 0},
 	{0, 1, 0, 0, 0, 0, 1, 1},
-	{1, 1, 0, 0, 0, 0, 1, 0},
+	{1, 1, 0, 0, 2, 0, 1, 0},
 	{1, 1, 1, 1, 1, 1, 1, 1}};
 	while (i < 8)
 	{

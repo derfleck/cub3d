@@ -1,18 +1,23 @@
 #include "../inc/cub3d.h"
 
 //draws cube in the size of len on pos[X/Y]
-void	draw_cube(t_img *img, int pos_x, int pos_y, int len)
+//void	draw_cube(t_img *img, int pos_x, int pos_y, int len)
+void	draw_cube(t_img *img, int *pos, int len, int col)
 {
 	int	x;
 	int	y;
 
 	y = 0;
+	if (col == 1)
+		col = RED;
+	else if (col == 2)
+		col = YELLOW;
 	while (y < len)
 	{
 		x = 0;
 		while (x < len)
 		{
-			ft_mlx_pixel_put(img, pos_x + x, pos_y + y, RED);
+			ft_mlx_pixel_put(img, (pos[X] * len) + x, (pos[Y] * len) + y, col);
 			x++;
 		}
 		y++;
@@ -43,10 +48,9 @@ int	**get_int_array(int x, int y)
 		return (NULL);
 	while (j < y)
 	{
-		arr[j] = malloc(sizeof(int) * x);
+		arr[j] = ft_calloc(x, sizeof(int));
 		if (!arr[j])
 			return (free_int_arr(arr, j), NULL);
-		//arr[j] = 0;
 		j++;
 	}
 	return (arr);
@@ -104,8 +108,7 @@ void	set_dimensions(t_map *map)
 //using only indexes at a later time
 void	draw_minimap(t_map *map)
 {
-	int	x;
-	int	y;
+	int	pos[2];
 	int	**mini;
 
 	set_dimensions(map);
@@ -115,17 +118,17 @@ void	draw_minimap(t_map *map)
 		mini = get_minimap(map);
 	if (mini == NULL)
 		return ;
-	y = 0;
-	while (y < map->mini_max[Y])
+	pos[Y] = 0;
+	while (pos[Y] < map->mini_max[Y])
 	{
-		x = 0;
-		while (x < map->mini_max[X])
+		pos[X] = 0;
+		while (pos[X] < map->mini_max[X])
 		{
-			if (mini && mini[y][x] == 1)
-				draw_cube(map->mlx->img, x * 8, y * 8, 8);
-			x++;
+			if (mini && mini[pos[Y]][pos[X]] > 0)
+				draw_cube(map->mlx->img, pos, 8, mini[pos[Y]][pos[X]]);
+			pos[X]++;
 		}
-		y++;
+		pos[Y]++;
 	}
 	if (mini != map->map)
 		free_int_arr(mini, map->mini_max[Y]);

@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/07 16:42:48 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:00:52 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct s_line {
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 //minimap functions
-void	draw_cube(t_img *img, int pos_x, int pos_y, int len);
+void	draw_cube(t_img *img, int *pos, int len, int col);
 void	free_int_arr(int **arr, int size);
 int		**get_int_array(int x, int y);
 int		**get_minimap(t_map *map);
