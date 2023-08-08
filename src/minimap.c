@@ -64,8 +64,8 @@ int	**get_minimap(t_map *map)
 	int	x;
 	int	y;
 
-	start[X] = map->player[X] - (map->max[X] / 2);
-	start[Y] = map->player[Y] - (map->max[Y] / 2);
+	start[X] = (int)map->play->player[X] - (map->max[X] / 2);
+	start[Y] = (int)map->play->player[Y] - (map->max[Y] / 2);
 	y = 0;
 	mini = get_int_array(map->mini_max[X], map->mini_max[Y]);
 	if (start[X] < 0)
@@ -125,7 +125,7 @@ void	draw_minimap(t_map *map)
 		while (pos[X] < map->mini_max[X])
 		{
 			if (mini && mini[pos[Y]][pos[X]] > 0)
-				draw_cube(map->mlx->img, pos, 8, mini[pos[Y]][pos[X]]);
+				draw_cube(map->mlx->img, pos, GRID, mini[pos[Y]][pos[X]]);
 			pos[X]++;
 		}
 		pos[Y]++;

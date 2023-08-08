@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/07 17:00:52 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:38:08 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 # include <errno.h>
 # define WIDTH 800
 # define HEIGHT 600
-# define GRID 10
+# define GRID 8
+# define TEX 64
 # define BLACK 0x00000000
 # define BLUE  0x000000FF
 # define GREEN 0x0000FF00
@@ -63,25 +64,34 @@ typedef enum e_dir {
 	WEST
 }	t_dir;
 
+typedef struct s_player	t_player;
+
 typedef struct s_map {
-	int		**map;
-	int		look_dir[2];
-	int		player[2];
-	int		mini_max[2];
-	int		max[2];
-	char	**tex;
-	int		ceiling;
-	int		floor;
-	t_mlx	*mlx;
+	int			**map;
+	int			max[2];
+	int			mini_max[2];
+	char		**tex;
+	int			ceiling;
+	int			floor;
+	char		dir;
+	t_player	*play;
+	t_mlx		*mlx;
 }	t_map;
 
 typedef struct s_player {
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
+	char	dir;
+	double	player[2];
+	double	plane[2];
+	double	look_dir[2];
+	t_map	*map;
+
+	double	camera_x;
+	double	raydir[2];
+	double	sidedist[2];
+	double	deltadist[2];
+	int		step[2];
+	double	perpwalldist;
+
 	double	time;
 	double	prev_time;
 }	t_player;
