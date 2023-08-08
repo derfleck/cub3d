@@ -1,52 +1,7 @@
 #include "../inc/cub3d.h"
 
-/*
-#define WIDTH 8
-#define HEIGHT 8
-#define X 0
-#define Y 1
-#include <math.h>
-#include <stdio.h>
-
-int map[WIDTH][HEIGHT] = {
-{1,1,1,1,1,1,1,1},
-{1,0,0,0,0,0,1,1},
-{1,0,0,0,0,0,0,1},
-{1,1,0,0,0,0,0,1},
-{1,0,0,0,0,0,0,1},
-{1,0,0,0,0,0,0,1},
-{1,0,0,0,1,0,1,1},
-{1,1,1,1,1,1,1,1}
-};
-*/
-
-//sets camera and looking vectors based on looking direction at start
-void	set_direction(t_map *map)
-{
-	if (map->dir == 'N' || map->dir == 'S')
-	{
-		map->play->plane[X] = 0.66;
-		map->play->plane[Y] = 0;
-		map->play->look_dir[X] = 0;
-		if (map->dir == 'N')
-			map->play->look_dir[Y] = -1;
-		else if (map->dir == 'S')
-			map->play->look_dir[Y] = 1;
-	}
-	else if (map->dir == 'E' || map->dir == 'W')
-	{
-		map->play->plane[X] = 0;
-		map->play->plane[Y] = 0.66;
-		map->play->look_dir[Y] = 0;
-		if (map->dir == 'E')
-			map->play->look_dir[X] = 1;
-		else if (map->dir == 'W')
-			map->play->look_dir[X] = -1;
-	}
-}
-
 //checks the direction and size of X/Y steps for DDA
-void	calc_steps(t_player	*ptr)
+static void	calc_steps(t_player	*ptr)
 {
 	double	diff[2];
 
@@ -74,16 +29,18 @@ void	calc_steps(t_player	*ptr)
 	}
 }
 
-void	calc_perpwalldist(t_player *ptr, int side)
+static void	calc_perpwalldist(t_player *ptr, int side)
 {
 	if (side)
 		ptr->perpwalldist = ptr->sidedist[Y] - ptr->deltadist[Y];
 	else
 		ptr->perpwalldist = ptr->sidedist[X] - ptr->deltadist[X];
+	if (ptr->perpwalldist == 0)
+		ptr->perpwalldist = DBL_MIN;
 }
 
 //performs the DDA algorithm to find the next wall hit by ray
-void	check_hit(t_player *ptr)
+static void	check_hit(t_player *ptr)
 {
 	int	hit;
 	int	side;
@@ -112,27 +69,30 @@ void	check_hit(t_player *ptr)
 	calc_perpwalldist(ptr, side);
 }
 
+//raycasting using vectors, when direction is 0, delta is set to double max
 void	raycast(t_map *map)
 {
 	int			x;
 	t_player	*ptr;
 
 	ptr = map->play;
+	x = 0;
 	while (x < WIDTH)
 	{
 		ptr->camera_x = ((2.0 * x) / (double) WIDTH) - 1.0;
 		ptr->raydir[X] = ptr->look_dir[X] + (ptr->plane[X] * ptr->camera_x);
 		ptr->raydir[Y] = ptr->look_dir[Y] + (ptr->plane[Y] * ptr->camera_x);
 		if (ptr->raydir[X] == 0)
-			ptr->deltadist[X] = 1e30;
+			ptr->deltadist[X] = DBL_MAX;
 		else
 			ptr->deltadist[X] = fabs(1.0 / ptr->raydir[X]);
 		if (ptr->raydir[Y] == 0)
-			ptr->deltadist[Y] = 1e30;
+			ptr->deltadist[Y] = DBL_MAX;
 		else
 			ptr->deltadist[Y] = fabs(1.0 / ptr->raydir[Y]);
 		calc_steps(ptr);
 		check_hit(ptr);
+		draw_wall(map, x);
 		x++;
 	}
 }

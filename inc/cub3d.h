@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/08 13:38:08 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/08 14:56:26 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <X11/keysym.h>
 # include <errno.h>
+# include <float.h>
 # define WIDTH 800
 # define HEIGHT 600
 # define GRID 8
@@ -79,7 +80,6 @@ typedef struct s_map {
 }	t_map;
 
 typedef struct s_player {
-	char	dir;
 	double	player[2];
 	double	plane[2];
 	double	look_dir[2];
@@ -113,11 +113,14 @@ typedef struct s_line {
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 //minimap functions
-void	draw_cube(t_img *img, int *pos, int len, int col);
+void	draw_cube(t_img *img, int *pos, int len);
 void	free_int_arr(int **arr, int size);
 int		**get_int_array(int x, int y);
-int		**get_minimap(t_map *map);
-void	set_dimensions(t_map *map);
 void	draw_minimap(t_map *map);
+
+//raycasting
+void	raycast(t_map *map);
+void	set_direction(t_map *map);
+void	draw_wall(t_map *map, int x);
 
 #endif

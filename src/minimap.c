@@ -2,22 +2,18 @@
 
 //draws cube in the size of len on pos[X/Y]
 //void	draw_cube(t_img *img, int pos_x, int pos_y, int len)
-void	draw_cube(t_img *img, int *pos, int len, int col)
+void	draw_cube(t_img *img, int *pos, int len)
 {
 	int	x;
 	int	y;
 
 	y = 0;
-	if (col == 1)
-		col = RED;
-	else if (col == 2)
-		col = YELLOW;
 	while (y < len)
 	{
 		x = 0;
 		while (x < len)
 		{
-			ft_mlx_pixel_put(img, (pos[X] * len) + x, (pos[Y] * len) + y, col);
+			ft_mlx_pixel_put(img, (pos[X] * len) + x, (pos[Y] * len) + y, RED);
 			x++;
 		}
 		y++;
@@ -57,7 +53,7 @@ int	**get_int_array(int x, int y)
 }
 
 //should only be called if map is larger than 30 items
-int	**get_minimap(t_map *map)
+static int	**get_minimap(t_map *map)
 {
 	int	start[2];
 	int	**mini;
@@ -87,7 +83,7 @@ int	**get_minimap(t_map *map)
 
 //takes current dimensions of map, sets minimap dimensions
 //values are capped at 30 in both directions
-void	set_dimensions(t_map *map)
+static void	set_dimensions(t_map *map)
 {
 	if (map->max[X] > 30)
 		map->mini_max[X] = 30;
@@ -125,7 +121,7 @@ void	draw_minimap(t_map *map)
 		while (pos[X] < map->mini_max[X])
 		{
 			if (mini && mini[pos[Y]][pos[X]] > 0)
-				draw_cube(map->mlx->img, pos, GRID, mini[pos[Y]][pos[X]]);
+				draw_cube(map->mlx->img, pos, GRID);
 			pos[X]++;
 		}
 		pos[Y]++;

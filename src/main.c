@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/07 17:11:17 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:16:55 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	create_window(t_map	*map)
 	map->mlx->win = mlx_new_window(map->mlx->mlx, WIDTH, HEIGHT, "cub3d");
 	map->mlx->img = create_img(WIDTH, HEIGHT, map->mlx->mlx);
 	draw_background(map);
+	raycast(map);
 	draw_minimap(map);
 	mlx_put_image_to_window(map->mlx->mlx, map->mlx->win, map->mlx->img->img, 0, 0);
 	mlx_loop(map->mlx->mlx);
@@ -119,6 +120,7 @@ void	create_window(t_map	*map)
 int	main(int argc, char **argv)
 {
 	static t_map	map;
+	static t_player	player;
 	int				i;
 	int				j;
 
@@ -127,10 +129,10 @@ int	main(int argc, char **argv)
 	int map_data[8][8] = {{0, 0, 1, 1, 1, 0, 0, 1},
 	{1, 1, 0, 0, 0, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 1, 0},
-	{1, 0, 1, 0, 0, 1, 1, 1},
+	{1, 0, 1, 2, 0, 1, 1, 1},
 	{1, 1, 0, 0, 0, 0, 1, 0},
 	{0, 1, 0, 0, 0, 0, 1, 1},
-	{1, 1, 0, 0, 2, 0, 1, 0},
+	{1, 1, 0, 0, 0, 0, 1, 0},
 	{1, 1, 1, 1, 1, 1, 1, 1}};
 	while (i < 8)
 	{
@@ -146,8 +148,13 @@ int	main(int argc, char **argv)
 	map.floor = BLACK;
 	map.max[X] = 8;
 	map.max[Y] = 8;
-	map.player[X] = 4;
-	map.player[Y] = 6;
+
+	map.play = &player;
+	map.play->player[X] = 3.5;
+	map.play->player[Y] = 3.5;
+	map.play->map = &map;
+	map.dir = 'N';
+	set_direction(&map);
 
 	(void)argc;
 	(void)argv;
