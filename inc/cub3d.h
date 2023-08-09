@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/09 17:52:44 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:28:36 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ typedef struct s_player {
 	double	perpwalldist;
 	int		side;
 
-	double	time;
-	double	prev_time;
+	double	spf;
+	clock_t	prev_time;
 }	t_player;
 
 //struct for line points
@@ -139,7 +139,7 @@ void	draw_wall(t_map *map, int x);
 
 //movement
 void	walk(t_map *map, int dir);
-clock_t	calc_speed(t_player *play);
+void	calc_speed(t_player *play);
 void	set_hooks(t_map *map);
 
 //math

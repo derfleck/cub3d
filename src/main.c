@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/09 14:14:01 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:47:41 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	loop_draw(t_map *map)
 
 int	loop_draw(t_map *map)
 {
+	calc_speed(map->play);
 	draw_background(map);
 	raycast(map);
 	draw_minimap(map);

@@ -1,15 +1,18 @@
 #include "../inc/cub3d.h"
 
 //calculates the time that has elapsed since the last call
-clock_t	calc_speed(t_player *play)
+//adapts the walking and rotation speed to the fps
+void	calc_speed(t_player *play)
 {
-	clock_t	diff;
+	double	diff;
 
 	if (play->prev_time == 0)
 		play->prev_time = clock();
-	diff = (clock() - play->prev_time) / CLOCKS_PER_SEC;
+	diff = (double)(clock() - play->prev_time) / CLOCKS_PER_SEC;
 	play->prev_time = clock();
-	return (diff);
+	play->map->walk_speed = diff * 20;
+	play->map->rot_speed = diff * 3;
+	printf("%d fps\r", (int)(1 / diff));
 }
 
 void	walk(t_map *map, int dir)
@@ -92,6 +95,16 @@ int	check_button(int keycode, t_map *map)
 	return (0);
 }
 
+int	mouse_rotate(int x, int y, t_map *map)
+{
+	(void)y;
+	if (x > (WIDTH / 1.2))
+		rotate(map, deg_to_rad(-1));
+	else if (x < (WIDTH / 6))
+		rotate(map, deg_to_rad(1));
+	return (0);
+}
+
 int	close_cubed(t_map *map)
 {
 	(void)map;
@@ -101,5 +114,6 @@ int	close_cubed(t_map *map)
 void	set_hooks(t_map *map)
 {
 	mlx_hook(map->mlx->win, 2, 1L << 0, check_button, map);
+	mlx_hook(map->mlx->win, 6, 1L << 6, mouse_rotate, map);
 	mlx_hook(map->mlx->win, 33, 1L << 17, close_cubed, map);
 }
