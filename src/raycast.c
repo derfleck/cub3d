@@ -15,7 +15,7 @@ static void	calc_steps(t_player	*ptr)
 	else
 	{
 		ptr->step[X] = 1;
-		ptr->sidedist[X] = diff[X] - 1;
+		ptr->sidedist[X] = (1 - diff[X]) * ptr->deltadist[X];
 	}
 	if (ptr->raydir[Y] < 0)
 	{
@@ -25,7 +25,7 @@ static void	calc_steps(t_player	*ptr)
 	else
 	{
 		ptr->step[Y] = 1;
-		ptr->sidedist[Y] = diff[Y] - 1;
+		ptr->sidedist[Y] = (1 - diff[Y]) * ptr->deltadist[Y];
 	}
 }
 
@@ -35,8 +35,8 @@ static void	calc_perpwalldist(t_player *ptr, int side)
 		ptr->perpwalldist = ptr->sidedist[Y] - ptr->deltadist[Y];
 	else
 		ptr->perpwalldist = ptr->sidedist[X] - ptr->deltadist[X];
-	if (ptr->perpwalldist == 0)
-		ptr->perpwalldist = DBL_MIN;
+	if (ptr->perpwalldist <= 0)
+		ptr->perpwalldist = 0.1;
 }
 
 //performs the DDA algorithm to find the next wall hit by ray
@@ -49,7 +49,7 @@ static void	check_hit(t_player *ptr)
 	hit = 0;
 	map[X] = (int)ptr->player[X];
 	map[Y] = (int)ptr->player[Y];
-	while (!hit)
+	while (hit == 0)
 	{
 		if (ptr->sidedist[X] < ptr->sidedist[Y])
 		{
@@ -79,7 +79,7 @@ void	raycast(t_map *map)
 	x = 0;
 	while (x < WIDTH)
 	{
-		ptr->camera_x = ((2.0 * x) / (double) WIDTH) - 1.0;
+		ptr->camera_x = 2 * x / (double)WIDTH - 1;
 		ptr->raydir[X] = ptr->look_dir[X] + (ptr->plane[X] * ptr->camera_x);
 		ptr->raydir[Y] = ptr->look_dir[Y] + (ptr->plane[Y] * ptr->camera_x);
 		if (ptr->raydir[X] == 0)

@@ -95,6 +95,15 @@ static void	set_dimensions(t_map *map)
 		map->mini_max[Y] = map->max[Y];
 }
 
+void	draw_player(t_map *map)
+{
+	int	pos[2];
+
+	pos[X] = (int)(GRID * map->play->player[X]);
+	pos[Y] = (int)(GRID * map->play->player[Y]);
+	ft_mlx_pixel_put(map->mlx->img, pos[X], pos[Y], GREEN);
+}
+
 //minimap only draws a 30 x 30 item snapshot of the map
 //this ensures that also huge maps can be loaded and the
 //viewspace is never blocked by the minimap (max 240 x 240 px)
@@ -128,4 +137,5 @@ void	draw_minimap(t_map *map)
 	}
 	if (mini != map->map)
 		free_int_arr(mini, map->mini_max[Y]);
+	draw_player(map);
 }

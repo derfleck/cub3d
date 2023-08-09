@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/08 14:56:26 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/09 14:17:42 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <X11/keysym.h>
 # include <errno.h>
 # include <float.h>
+# include <time.h>
 # define WIDTH 800
 # define HEIGHT 600
 # define GRID 8
@@ -35,6 +36,9 @@
 # define BUFFER_SIZE 1000
 # define X 0
 # define Y 1
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
 
 //structure for coordinates, using 2D single linked list
 typedef struct s_pt {
@@ -75,6 +79,8 @@ typedef struct s_map {
 	int			ceiling;
 	int			floor;
 	char		dir;
+	double		walk_speed;
+	double		rot_speed;
 	t_player	*play;
 	t_mlx		*mlx;
 }	t_map;
@@ -109,6 +115,13 @@ typedef struct s_line {
 	int	err;
 }	t_line;
 
+typedef struct s_mat {
+	double	c1r1;
+	double	c1r2;
+	double	c2r1;
+	double	c2r2;
+}	t_mat;
+
 //draw functions
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
@@ -122,5 +135,14 @@ void	draw_minimap(t_map *map);
 void	raycast(t_map *map);
 void	set_direction(t_map *map);
 void	draw_wall(t_map *map, int x);
+
+//movement
+void	walk(t_map *map, int dir);
+clock_t	calc_speed(t_player *play);
+void	set_hooks(t_map *map);
+
+//math
+double	deg_to_rad(double deg);
+void	mat_mul(double *val, t_mat mat);
 
 #endif

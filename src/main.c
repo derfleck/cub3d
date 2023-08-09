@@ -6,12 +6,13 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/08 15:16:55 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/09 14:14:01 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
+/*
 //requires img struct, coordinates and color code
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -22,6 +23,7 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
 	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
 }
+*/
 
 //creates image struct
 t_img	*create_img(int x, int y, void *mlx)
@@ -100,20 +102,26 @@ int	loop_draw(t_map *map)
 }
 */
 
+int	loop_draw(t_map *map)
+{
+	draw_background(map);
+	raycast(map);
+	draw_minimap(map);
+	mlx_put_image_to_window(map->mlx->mlx, map->mlx->win, map->mlx->img->img, 0, 0);
+	return (0);
+}
+
 void	create_window(t_map	*map)
 {
 	map->mlx = malloc(sizeof(t_mlx));
 	if (!map->mlx)
 		return ;
 	map->mlx->mlx = mlx_init();
-	map->mlx->win = mlx_new_window(map->mlx->mlx, WIDTH, HEIGHT, "cub3d");
+	map->mlx->win = mlx_new_window(map->mlx->mlx, WIDTH, HEIGHT, "Cub3d");
 	map->mlx->img = create_img(WIDTH, HEIGHT, map->mlx->mlx);
-	draw_background(map);
-	raycast(map);
-	draw_minimap(map);
-	mlx_put_image_to_window(map->mlx->mlx, map->mlx->win, map->mlx->img->img, 0, 0);
+	mlx_loop_hook(map->mlx->mlx, loop_draw, map);
+	set_hooks(map);
 	mlx_loop(map->mlx->mlx);
-	//mlx_loop_hook(map->mlx_ptr, loop_draw, map);
 }
 
 
@@ -129,7 +137,7 @@ int	main(int argc, char **argv)
 	int map_data[8][8] = {{0, 0, 1, 1, 1, 0, 0, 1},
 	{1, 1, 0, 0, 0, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 1, 0},
-	{1, 0, 1, 2, 0, 1, 1, 1},
+	{1, 0, 1, 1, 0, 1, 1, 1},
 	{1, 1, 0, 0, 0, 0, 1, 0},
 	{0, 1, 0, 0, 0, 0, 1, 1},
 	{1, 1, 0, 0, 0, 0, 1, 0},
@@ -148,9 +156,10 @@ int	main(int argc, char **argv)
 	map.floor = BLACK;
 	map.max[X] = 8;
 	map.max[Y] = 8;
+	map.walk_speed = 0.09;
 
 	map.play = &player;
-	map.play->player[X] = 3.5;
+	map.play->player[X] = 4.5;
 	map.play->player[Y] = 3.5;
 	map.play->map = &map;
 	map.dir = 'N';
@@ -160,4 +169,5 @@ int	main(int argc, char **argv)
 	(void)argv;
 
 	create_window(&map);
+	return (0);
 }

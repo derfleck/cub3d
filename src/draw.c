@@ -30,12 +30,12 @@ void	draw_wall(t_map *map, int x)
 	int	wall_height;
 	int	start_end[2];
 
-	wall_height = (int) HEIGHT / map->play->perpwalldist;
+	wall_height = (int)(HEIGHT / map->play->perpwalldist);
 	start_end[0] = -wall_height / 2 + HEIGHT / 2;
 	if (start_end[0] < 0)
 		start_end[0] = 0;
 	start_end[1] = wall_height / 2 + HEIGHT / 2;
-	if (start_end[1] > HEIGHT)
+	if (start_end[1] >= HEIGHT)
 		start_end[1] = HEIGHT - 1;
 	while (start_end[0] <= start_end[1])
 		ft_mlx_pixel_put(map->mlx->img, x, start_end[0]++, YELLOW);
