@@ -38,5 +38,10 @@ void	draw_wall(t_map *map, int x)
 	if (start_end[1] >= HEIGHT)
 		start_end[1] = HEIGHT - 1;
 	while (start_end[0] <= start_end[1])
-		ft_mlx_pixel_put(map->mlx->img, x, start_end[0]++, YELLOW);
+	{
+		if (map->play->side == 0)
+			ft_mlx_pixel_put(map->mlx->img, x, start_end[0]++, YELLOW);
+		else
+			ft_mlx_pixel_put(map->mlx->img, x, start_end[0]++, GREEN);
+	}
 }

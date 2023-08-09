@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/09 14:17:42 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/09 17:52:44 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_player {
 	double	deltadist[2];
 	int		step[2];
 	double	perpwalldist;
+	int		side;
 
 	double	time;
 	double	prev_time;

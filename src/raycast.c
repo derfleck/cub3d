@@ -29,21 +29,20 @@ static void	calc_steps(t_player	*ptr)
 	}
 }
 
-static void	calc_perpwalldist(t_player *ptr, int side)
+static void	calc_perpwalldist(t_player *ptr)
 {
-	if (side)
+	if (ptr->side)
 		ptr->perpwalldist = ptr->sidedist[Y] - ptr->deltadist[Y];
 	else
 		ptr->perpwalldist = ptr->sidedist[X] - ptr->deltadist[X];
 	if (ptr->perpwalldist <= 0)
-		ptr->perpwalldist = 0.1;
+		ptr->perpwalldist = DBL_MIN;
 }
 
 //performs the DDA algorithm to find the next wall hit by ray
 static void	check_hit(t_player *ptr)
 {
 	int	hit;
-	int	side;
 	int	map[2];
 
 	hit = 0;
@@ -55,18 +54,18 @@ static void	check_hit(t_player *ptr)
 		{
 			ptr->sidedist[X] += ptr->deltadist[X];
 			map[X] += ptr->step[X];
-			side = 0;
+			ptr->side = 0;
 		}
 		else
 		{
 			ptr->sidedist[Y] += ptr->deltadist[Y];
 			map[Y] += ptr->step[Y];
-			side = 1;
+			ptr->side = 1;
 		}
 		if (ptr->map->map[map[Y]][map[X]] == 1)
 			hit = 1;
 	}
-	calc_perpwalldist(ptr, side);
+	calc_perpwalldist(ptr);
 }
 
 //raycasting using vectors, when direction is 0, delta is set to double max
