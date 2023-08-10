@@ -12,7 +12,7 @@ void	calc_speed(t_player *play)
 	play->prev_time = clock();
 	play->map->walk_speed = diff * 20;
 	play->map->rot_speed = diff * 3;
-	printf("%d fps\r", (int)(1 / diff));
+	//printf("%d fps\r", (int)(1 / diff));
 }
 
 void	walk(t_map *map, int dir)
@@ -98,10 +98,16 @@ int	check_button(int keycode, t_map *map)
 int	mouse_rotate(int x, int y, t_map *map)
 {
 	(void)y;
-	if (x > (WIDTH / 1.2))
+	if (x > (WIDTH / 1.5))
+	{
 		rotate(map, deg_to_rad(-1));
-	else if (x < (WIDTH / 6))
+		mlx_mouse_move(map->mlx->mlx, map->mlx->win, HEIGHT / 2, WIDTH / 2);
+	}
+	else if (x < (WIDTH / 4))
+	{
 		rotate(map, deg_to_rad(1));
+		mlx_mouse_move(map->mlx->mlx, map->mlx->win, HEIGHT / 2, WIDTH / 2);
+	}
 	return (0);
 }
 

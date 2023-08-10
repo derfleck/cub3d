@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/09 18:28:36 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:53:05 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct s_mlx {
 	t_img	*img;
 }	t_mlx;
 
+//content of path also need to follow this order, as
+//they're loaded into the tex array in the same
 typedef enum e_dir {
 	NORTH = 0,
 	EAST,
@@ -75,7 +77,8 @@ typedef struct s_map {
 	int			**map;
 	int			max[2];
 	int			mini_max[2];
-	char		**tex;
+	char		**path;
+	t_img		tex[4];
 	int			ceiling;
 	int			floor;
 	char		dir;
@@ -98,6 +101,10 @@ typedef struct s_player {
 	int		step[2];
 	double	perpwalldist;
 	int		side;
+	
+	double	wall_x;
+	double	tex_step;
+	double	tex_pos;
 
 	double	spf;
 	clock_t	prev_time;
@@ -125,6 +132,7 @@ typedef struct s_mat {
 
 //draw functions
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
+int		get_color_value(t_map *map, int x, int y, int i);
 
 //minimap functions
 void	draw_cube(t_img *img, int *pos, int len);
@@ -145,5 +153,9 @@ void	set_hooks(t_map *map);
 //math
 double	deg_to_rad(double deg);
 void	mat_mul(double *val, t_mat mat);
+
+//textures
+void	load_textures(t_map *map);
+void	draw_wall_textured(t_map *map, int x);
 
 #endif

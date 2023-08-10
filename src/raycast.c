@@ -62,7 +62,8 @@ static void	check_hit(t_player *ptr)
 			map[Y] += ptr->step[Y];
 			ptr->side = 1;
 		}
-		if (ptr->map->map[map[Y]][map[X]] == 1)
+		if (map[Y] < 0 || map[X] < 0 || \
+		ptr->map->map[map[Y]][map[X]] == 1)
 			hit = 1;
 	}
 	calc_perpwalldist(ptr);
@@ -91,7 +92,8 @@ void	raycast(t_map *map)
 			ptr->deltadist[Y] = fabs(1.0 / ptr->raydir[Y]);
 		calc_steps(ptr);
 		check_hit(ptr);
-		draw_wall(map, x);
+		//draw_wall(map, x);
+		draw_wall_textured(map, x);
 		x++;
 	}
 }

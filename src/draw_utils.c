@@ -28,3 +28,9 @@ void	mat_mul(double *val, t_mat mat)
 	val[X] = tmp[X];
 	val[Y] = tmp[Y];
 }
+
+int	get_color_value(t_map *map, int x, int y, int i)
+{
+	return (*(int *)(map->tex[i].addr
+		+ (y * map->tex[i].line_len + x * (map->tex[i].bpp / 8))));
+}

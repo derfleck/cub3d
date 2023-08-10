@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/09 18:47:41 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:07:49 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,11 @@ void	create_window(t_map	*map)
 	map->mlx->mlx = mlx_init();
 	map->mlx->win = mlx_new_window(map->mlx->mlx, WIDTH, HEIGHT, "Cub3d");
 	map->mlx->img = create_img(WIDTH, HEIGHT, map->mlx->mlx);
+	load_textures(map);
 	mlx_loop_hook(map->mlx->mlx, loop_draw, map);
 	set_hooks(map);
+	mlx_mouse_hide(map->mlx->mlx, map->mlx->win);
+	mlx_mouse_move(map->mlx->mlx, map->mlx->win, HEIGHT / 2, WIDTH / 2);
 	mlx_loop(map->mlx->mlx);
 }
 
@@ -164,6 +167,11 @@ int	main(int argc, char **argv)
 	map.play->player[Y] = 3.5;
 	map.play->map = &map;
 	map.dir = 'N';
+	map.path = malloc(sizeof(char *) * 4);
+	map.path[NORTH] = ft_strdup("tiles/north.xpm");
+	map.path[SOUTH] = ft_strdup("tiles/south.xpm");
+	map.path[EAST] = ft_strdup("tiles/east.xpm");
+	map.path[WEST] = ft_strdup("tiles/west.xpm");
 	set_direction(&map);
 
 	(void)argc;

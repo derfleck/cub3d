@@ -6,7 +6,7 @@
 #    By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 14:51:37 by mleitner          #+#    #+#              #
-#    Updated: 2023/08/08 17:34:46 by mleitner         ###   ########.fr        #
+#    Updated: 2023/08/10 14:29:37 by mleitner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRCSLIST		:= main.c\
 					raycast.c\
 					draw.c\
 					move.c\
-					draw_utils.c
+					draw_utils.c\
+					textures.c
 SRCS			:= $(addprefix ${SRCSDIR}, ${SRCSLIST})
 
 OBJSDIR			:= ./obj/
