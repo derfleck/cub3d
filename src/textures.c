@@ -54,14 +54,13 @@ void	draw_wall_textured(t_map *map, int x)
 		play->wall_x = play->player[Y] + play->perpwalldist * play->raydir[Y];
 	play->wall_x -= floor(play->wall_x);
 	coordinates[X] = (int)(play->wall_x * (double)TEX);
-	//if ((play->side == 1 && play->raydir[X] > 0) || \
-	//(play->side == 0 && play->raydir[Y] < 0))
+	//if (!(play->side == 0 && play->raydir[X] > 0) || \
+	//!(play->side == 1 && play->raydir[Y] < 0))
 	if (!(play->side && play->raydir[Y] < 0))
 		coordinates[X] = TEX - coordinates[X] - 1;
 	play->tex_step = 1.0 * ((double)TEX / (double)wall_height);
 	play->tex_pos = (start_end[0] - HEIGHT / 2 + \
 	wall_height / 2) * play->tex_step;
-	//printf("wall_x: %0.10f tex_step: %0.10f tex_pos: %0.10f ", play->wall_x, play->tex_step, play->tex_pos);
 	while (start_end[0] <= start_end[1])
 	{
 		coordinates[Y] = (int)play->tex_pos & (TEX - 1);

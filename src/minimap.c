@@ -95,13 +95,58 @@ static void	set_dimensions(t_map *map)
 		map->mini_max[Y] = map->max[Y];
 }
 
+t_line	set_values(int *start, int *end)
+{
+	t_line	tmp;
+
+	tmp.dx = abs(end[X] - start[X]);
+	tmp.dy = abs(end[Y] - start[Y]);
+	if (start[X] < end[X])
+		tmp.sx = 1;
+	else
+		tmp.sx = -1;
+	if (start[Y] < end[Y])
+		tmp.sy = 1;
+	else
+		tmp.sy = -1;
+	tmp.err = tmp.dx - tmp.dy;
+	return (tmp);
+}
+
+void ft_mlx_line(t_img *img, int *start, int *end, int color)
+{
+	t_line	tmp;
+	int		e2;
+
+	tmp = set_values(start, end);
+	while (start[X] != end[X] || start[Y] != end[Y])
+	{
+		ft_mlx_pixel_put(img, start[X], start[Y], color);
+		e2 = 2 * tmp.err;
+		if (e2 > -tmp.dy)
+		{
+			tmp.err -= tmp.dy;
+			start[X] += tmp.sx;
+		}
+		if (e2 < tmp.dx)
+		{
+			tmp.err += tmp.dx;
+			start[Y] += tmp.sy;
+		}
+	}
+}
+
 void	draw_player(t_map *map)
 {
-	int	pos[2];
+	int		pos[2];
+	int		end_point[2];
 
 	pos[X] = (int)(GRID * map->play->player[X]);
 	pos[Y] = (int)(GRID * map->play->player[Y]);
-	ft_mlx_pixel_put(map->mlx->img, pos[X], pos[Y], GREEN);
+	ft_mlx_pixel_put(map->mlx->img, pos[X], pos[Y], BLACK);
+	end_point[X] = pos[X] + (int)(10 * map->play->look_dir[X]);
+	end_point[Y] = pos[Y] + (int)(10 * map->play->look_dir[Y]);
+	ft_mlx_line(map->mlx->img, pos, end_point, GREEN);
 }
 
 //minimap only draws a 30 x 30 item snapshot of the map
@@ -123,6 +168,7 @@ void	draw_minimap(t_map *map)
 		mini = get_minimap(map);
 	if (mini == NULL)
 		return ;
+	draw_player(map);
 	pos[Y] = 0;
 	while (pos[Y] < map->mini_max[Y])
 	{
@@ -137,5 +183,4 @@ void	draw_minimap(t_map *map)
 	}
 	if (mini != map->map)
 		free_int_arr(mini, map->mini_max[Y]);
-	draw_player(map);
 }
