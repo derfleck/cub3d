@@ -29,6 +29,7 @@ static void	calc_steps(t_player	*ptr)
 	}
 }
 
+//helper, calculates perpendicular distance from player plane
 static void	calc_perpwalldist(t_player *ptr)
 {
 	if (ptr->side)
@@ -75,7 +76,7 @@ void	raycast(t_map *map)
 	int			x;
 	t_player	*ptr;
 
-	ptr = map->play;
+	ptr = &map->play;
 	x = 0;
 	while (x < WIDTH)
 	{
@@ -92,7 +93,6 @@ void	raycast(t_map *map)
 			ptr->deltadist[Y] = fabs(1.0 / ptr->raydir[Y]);
 		calc_steps(ptr);
 		check_hit(ptr);
-		//draw_wall(map, x);
 		draw_wall_textured(map, x);
 		x++;
 	}

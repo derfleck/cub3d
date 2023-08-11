@@ -6,24 +6,43 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/10 15:07:49 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/11 18:03:34 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-/*
-//requires img struct, coordinates and color code
-void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
+//frees int array up to a certain specified size
+void	free_int_arr(int **arr, int size)
 {
-	char	*dst;
+	int	i;
 
-	if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
-		return ;
-	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(unsigned int *)dst = color;
+	i = 0;
+	while (i < size)
+		free(arr[i++]);
+	if (arr)
+		free(arr);
 }
-*/
+
+//mallocs int** array, has enough protection
+int	**get_int_array(int x, int y)
+{
+	int	j;
+	int	**arr;
+
+	j = 0;
+	arr = malloc(sizeof(int *) * y);
+	if (!arr)
+		return (NULL);
+	while (j < y)
+	{
+		arr[j] = ft_calloc(x, sizeof(int));
+		if (!arr[j])
+			return (free_int_arr(arr, j), NULL);
+		j++;
+	}
+	return (arr);
+}
 
 //creates image struct
 t_img	*create_img(int x, int y, void *mlx)
@@ -39,105 +58,46 @@ t_img	*create_img(int x, int y, void *mlx)
 	return (img);
 }
 
-//draw single line for wall in raycaster
-void	draw_straight(t_map *map, int x, int y, int len)
+static int	loop_draw(t_map *map)
 {
-	int	y1;
+	t_mlx	*ptr;
 
-	y1 = y + len;
-	while (y < y1)
-		ft_mlx_pixel_put(map->mlx->img, x, y++, RED);
-}
-
-//draws floor and ceiling
-void	draw_background(t_map *map)
-{
-	int	x;
-	int	y;
-	int	col;
-
-	x = 0;
-	y = 0;
-	col = map->ceiling;
-	while (y <= HEIGHT)
-	{
-		if (col == map->ceiling && y >= HEIGHT / 2)
-			col = map->floor;
-		while (x <= WIDTH)
-			ft_mlx_pixel_put(map->mlx->img, x++, y, col);
-		x = 0;
-		y++;
-	}
-}
-
-/*
-//supposed to draw square for minimap
-//always use top left position to start (e.g. 0/0)
-//TODO: check coordinate system
-void	square(int x, int y, int len, t_map *map)
-{
-	int	x1;
-	int	y1;
-
-	y1 = y + len;
-	while (y < y1)
-	{
-		x1 = x;
-		while (x1 < x + len)
-			ft_mlx_pixel_put(map->mlx_ptr->img, x1++, y, map->mini_col);
-		y++;
-	}
-}
-
-//executed when hook is not called
-int	loop_draw(t_map *map)
-{
-	t_mlx	*mlx;
-
-	mlx = map->mlx_ptr;
-	draw_background(map);
-	draw_map(map, mlx->img);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img, 0, 0);
-	return (0);
-}
-*/
-
-int	loop_draw(t_map *map)
-{
-	calc_speed(map->play);
+	ptr = &map->mlx;
+	calc_speed(&map->play);
 	draw_background(map);
 	raycast(map);
 	draw_minimap(map);
-	mlx_put_image_to_window(map->mlx->mlx, map->mlx->win, map->mlx->img->img, 0, 0);
+	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->img->img, 0, 0);
 	return (0);
 }
 
-void	create_window(t_map	*map)
+static void	create_window(t_map	*map)
 {
-	map->mlx = malloc(sizeof(t_mlx));
-	if (!map->mlx)
+	map->mlx.mlx = mlx_init();
+	if (!map->mlx.mlx)
 		return ;
-	map->mlx->mlx = mlx_init();
-	map->mlx->win = mlx_new_window(map->mlx->mlx, WIDTH, HEIGHT, "Cub3d");
-	map->mlx->img = create_img(WIDTH, HEIGHT, map->mlx->mlx);
+	map->mlx.win = mlx_new_window(map->mlx.mlx, WIDTH, HEIGHT, "Cub3d");
+	if (!map->mlx.win)
+		return ;
+	map->mlx.img = create_img(WIDTH, HEIGHT, map->mlx.mlx);
+	if (!map->mlx.img)
+		return ;
 	load_textures(map);
-	mlx_loop_hook(map->mlx->mlx, loop_draw, map);
+	mlx_loop_hook(map->mlx.mlx, loop_draw, map);
 	set_hooks(map);
-	mlx_mouse_hide(map->mlx->mlx, map->mlx->win);
-	mlx_mouse_move(map->mlx->mlx, map->mlx->win, HEIGHT / 2, WIDTH / 2);
-	mlx_loop(map->mlx->mlx);
+	mlx_loop(map->mlx.mlx);
 }
 
 
 int	main(int argc, char **argv)
 {
 	static t_map	map;
-	static t_player	player;
 	int				i;
 	int				j;
 
 	i = 0;
-	map.map = get_int_array(8, 8);
+	map.map = get_int_array(32, 8);
+	/*
 	int map_data[8][8] = {{0, 0, 1, 1, 1, 0, 0, 1},
 	{1, 1, 0, 0, 0, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 1, 0},
@@ -146,26 +106,34 @@ int	main(int argc, char **argv)
 	{0, 1, 0, 0, 0, 0, 1, 1},
 	{1, 1, 0, 0, 0, 0, 1, 0},
 	{1, 1, 1, 1, 1, 1, 1, 1}};
+	*/
+	int map_data_2[8][32] = {{0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1},
+	{1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0},
+	{1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1},
+	{1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0},
+	{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 	while (i < 8)
 	{
 		j = 0;
-		while (j < 8)
+		while (j < 32)
 		{
-			map.map[i][j] = map_data[i][j];
+			map.map[i][j] = map_data_2[i][j];
 			j++;
 		}
 		i++;
 	}
 	map.ceiling = BLUE;
 	map.floor = BLACK;
-	map.max[X] = 8;
+	map.max[X] = 32;
 	map.max[Y] = 8;
 	map.walk_speed = 0.09;
 
-	map.play = &player;
-	map.play->player[X] = 4.5;
-	map.play->player[Y] = 3.5;
-	map.play->map = &map;
+	map.play.player[X] = 4.5;
+	map.play.player[Y] = 3.5;
+	map.play.map = &map;
 	map.dir = 'N';
 	map.path = malloc(sizeof(char *) * 4);
 	map.path[NORTH] = ft_strdup("tiles/north.xpm");

@@ -2,26 +2,41 @@
 
 //calculates the time that has elapsed since the last call
 //adapts the walking and rotation speed to the fps
+//also displays fps in terminal and caps frame rate, if set
 void	calc_speed(t_player *play)
 {
 	double	diff;
+	double	target_frame_time;
+	double	time_elapsed;
+	clock_t	start_time;
 
+	target_frame_time = 1.0 / TARGET_FPS;
 	if (play->prev_time == 0)
 		play->prev_time = clock();
 	diff = (double)(clock() - play->prev_time) / CLOCKS_PER_SEC;
 	play->prev_time = clock();
+	if (TARGET_FPS && diff < target_frame_time)
+	{
+		start_time = clock();
+		time_elapsed = target_frame_time - diff;
+		while ((double)(clock() - start_time) / CLOCKS_PER_SEC < time_elapsed)
+			;
+		diff = target_frame_time;
+	}
 	play->map->walk_speed = diff * 20;
-	play->map->rot_speed = diff * 3;
-	//printf("%d fps\r", (int)(1 / diff));
+	play->map->rot_speed = diff * 300;
+	if (PRINT_FPS)
+		printf("%d fps\r", (int)(1 / diff));
 }
 
+//function called when W or S are pressed, moves player forward/backward
 void	walk(t_map *map, int dir)
 {
 	t_player	*play;
 	double		speed[2];
 	int			next[2];
 
-	play = map->play;
+	play = &map->play;
 	speed[X] = map->walk_speed * play->look_dir[X];
 	speed[Y] = map->walk_speed * play->look_dir[Y];
 	if (dir == SOUTH)
@@ -31,14 +46,15 @@ void	walk(t_map *map, int dir)
 	}
 	next[X] = (int)(play->player[X] + speed[X]);
 	next[Y] = (int)(play->player[Y] + speed[Y]);
-	if (map->map[next[Y]][next[X]] == 0)
+	if (next[X] < map->max[X] && next[Y] < map->max[Y] && \
+	map->map[next[Y]][next[X]] == 0)
 	{
 		play->player[X] += speed[X];
 		play->player[Y] += speed[Y];
 	}
 }
 
-//function for moving sideways
+//function called when A or D are pressed, for moving sideways (strafing)
 void	strafe(t_map *map, int dir)
 {
 	t_player	*play;
@@ -47,7 +63,7 @@ void	strafe(t_map *map, int dir)
 	double		look_side[2];
 	double		ang;
 
-	play = map->play;
+	play = &map->play;
 	if (dir == WEST)
 		ang = deg_to_rad(-90);
 	else
@@ -58,7 +74,8 @@ void	strafe(t_map *map, int dir)
 	speed[Y] = map->walk_speed * look_side[Y];
 	next[X] = (int)(play->player[X] + speed[X]);
 	next[Y] = (int)(play->player[Y] + speed[Y]);
-	if (map->map[next[Y]][next[X]] != 1)
+	if (next[X] < map->max[X] && next[Y] < map->max[Y] && \
+	map->map[next[Y]][next[X]] == 0)
 	{
 		play->player[X] += speed[X];
 		play->player[Y] += speed[Y];
@@ -73,53 +90,6 @@ void	rotate(t_map *map, double ang)
 	t_mat	rot_mat;
 
 	rot_mat = (t_mat){cos(ang), -sin(ang), sin(ang), cos(ang)};
-	mat_mul(&map->play->look_dir[0], rot_mat);
-	mat_mul(&map->play->plane[0], rot_mat);
-}
-
-
-int	check_button(int keycode, t_map *map)
-{
-	if (keycode == XK_W || keycode == XK_w)
-		walk(map, NORTH);
-	else if (keycode == XK_S || keycode == XK_s)
-		walk(map, SOUTH);
-	else if (keycode == XK_A || keycode == XK_a)
-		strafe(map, WEST);
-	else if (keycode == XK_D || keycode == XK_d)
-		strafe(map, EAST);
-	else if (keycode == XK_Left)
-		rotate(map, deg_to_rad(5));
-	else if (keycode == XK_Right)
-		rotate(map, deg_to_rad(-5));
-	return (0);
-}
-
-int	mouse_rotate(int x, int y, t_map *map)
-{
-	(void)y;
-	if (x > (WIDTH / 1.5))
-	{
-		rotate(map, deg_to_rad(-1));
-		mlx_mouse_move(map->mlx->mlx, map->mlx->win, HEIGHT / 2, WIDTH / 2);
-	}
-	else if (x < (WIDTH / 4))
-	{
-		rotate(map, deg_to_rad(1));
-		mlx_mouse_move(map->mlx->mlx, map->mlx->win, HEIGHT / 2, WIDTH / 2);
-	}
-	return (0);
-}
-
-int	close_cubed(t_map *map)
-{
-	(void)map;
-	exit(0);
-}
-
-void	set_hooks(t_map *map)
-{
-	mlx_hook(map->mlx->win, 2, 1L << 0, check_button, map);
-	mlx_hook(map->mlx->win, 6, 1L << 6, mouse_rotate, map);
-	mlx_hook(map->mlx->win, 33, 1L << 17, close_cubed, map);
+	mat_mul(&map->play.look_dir[0], rot_mat);
+	mat_mul(&map->play.plane[0], rot_mat);
 }

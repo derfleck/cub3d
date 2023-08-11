@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/11 13:28:34 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/11 17:52:55 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,11 @@
 # define BUFFER_SIZE 1000
 # define X 0
 # define Y 1
+# define TARGET_FPS 500
+# define PRINT_FPS 1
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
 # endif
-
-//structure for coordinates, using 2D single linked list
-typedef struct s_pt {
-	float_t		x;
-	float_t		y;
-	struct s_pt	*right;
-	struct s_pt	*up;
-}	t_pt;
 
 typedef struct s_img {
 	void	*img;
@@ -71,22 +65,7 @@ typedef enum e_dir {
 	WEST
 }	t_dir;
 
-typedef struct s_player	t_player;
-
-typedef struct s_map {
-	int			**map;
-	int			max[2];
-	int			mini_max[2];
-	char		**path;
-	t_img		tex[4];
-	int			ceiling;
-	int			floor;
-	char		dir;
-	double		walk_speed;
-	double		rot_speed;
-	t_player	*play;
-	t_mlx		*mlx;
-}	t_map;
+typedef struct s_map	t_map;
 
 typedef struct s_player {
 	double	player[2];
@@ -109,9 +88,27 @@ typedef struct s_player {
 	int		tex_i[2];
 	int		screen_pos[2];
 
-	double	spf;
 	clock_t	prev_time;
 }	t_player;
+
+typedef struct s_map {
+	int			**map;
+	int			max[2];
+	char		**path;
+	int			ceiling;
+	int			floor;
+	char		dir;
+	
+	t_img		tex[4];
+	double		walk_speed;
+	double		rot_speed;
+	int			mini_max[2];
+	int			mini_start[2];
+	int			mini_end[2];
+	t_player	play;
+	t_mlx		mlx;
+}	t_map;
+
 
 //struct for line points
 typedef struct s_line {
@@ -122,6 +119,7 @@ typedef struct s_line {
 	int	err;
 }	t_line;
 
+//helper struct for matrix multiplication
 typedef struct s_mat {
 	double	c1r1;
 	double	c1r2;
@@ -129,32 +127,35 @@ typedef struct s_mat {
 	double	c2r2;
 }	t_mat;
 
-//draw functions
+//draw and math utils
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 int		get_color_value(t_map *map, int x, int y, int i);
+double	deg_to_rad(double deg);
+void	mat_mul(double *val, t_mat mat);
+
+//line drawing
+void	ft_mlx_line(t_img *img, int *start, int *end, int color);
 
 //minimap functions
-void	draw_cube(t_img *img, int *pos, int len);
-void	free_int_arr(int **arr, int size);
-int		**get_int_array(int x, int y);
 void	draw_minimap(t_map *map);
 
-//raycasting
+//raycasting and drawing
 void	raycast(t_map *map);
 void	set_direction(t_map *map);
 void	draw_wall(t_map *map, int x);
-
-//movement
-void	walk(t_map *map, int dir);
-void	calc_speed(t_player *play);
-void	set_hooks(t_map *map);
-
-//math
-double	deg_to_rad(double deg);
-void	mat_mul(double *val, t_mat mat);
+void	draw_background(t_map *map);
 
 //textures
 void	load_textures(t_map *map);
 void	draw_wall_textured(t_map *map, int x);
+
+//hooks
+void	set_hooks(t_map *map);
+
+//move
+void	calc_speed(t_player *play);
+void	walk(t_map *map, int dir);
+void	strafe(t_map *map, int dir);
+void	rotate(t_map *map, double ang);
 
 #endif

@@ -1,7 +1,6 @@
 #include "../inc/cub3d.h"
 
-//loads textures from given path, malloc protected for both
-//initializing pointers as well as loading xpm files
+//loads textures from given path, malloc protected
 void	load_textures(t_map *map)
 {
 	int	i;
@@ -11,12 +10,12 @@ void	load_textures(t_map *map)
 	tex = TEX;
 	while (i < 4)
 	{
-		map->tex[i].img = mlx_xpm_file_to_image(map->mlx->mlx, map->path[i], \
+		map->tex[i].img = mlx_xpm_file_to_image(map->mlx.mlx, map->path[i], \
 		&tex, &tex);
 		if (map->tex[i].img == NULL)
 		{
 			while (--i >= 0)
-				mlx_destroy_image(map->mlx->mlx, map->tex[i].img);
+				mlx_destroy_image(map->mlx.mlx, map->tex[i].img);
 			return ;
 		}
 		map->tex[i].addr = mlx_get_data_addr(map->tex[i].img, &map->tex[i].bpp, \
@@ -24,21 +23,23 @@ void	load_textures(t_map *map)
 		if (map->tex[i].addr == NULL)
 		{
 			while (--i >= 0)
-				mlx_destroy_image(map->mlx->mlx, map->tex[i].img);
+				mlx_destroy_image(map->mlx.mlx, map->tex[i].img);
 			return ;
 		}
 		i++;
 	}
 }
 
+//helper, gets color from texture position and draws pixel on image
 static void	draw_texture(t_map *map, int *screen_i, int tex)
 {
 	int	color;
 
-	color = get_color_value(map, map->play->tex_i[X], map->play->tex_i[Y], tex);
-	ft_mlx_pixel_put(map->mlx->img, screen_i[X], screen_i[Y], color);
+	color = get_color_value(map, map->play.tex_i[X], map->play.tex_i[Y], tex);
+	ft_mlx_pixel_put(map->mlx.img, screen_i[X], screen_i[Y], color);
 }
 
+//calculates height of wall on screen based on raycast
 static void	calc_wall_height(t_player *play, int x)
 {
 	play->wall_height = (int)(HEIGHT / play->perpwalldist);
@@ -60,12 +61,16 @@ static void	calc_wall_height(t_player *play, int x)
 	play->wall_height / 2) * play->tex_step;
 }
 
+//performs calculation of position on texture to draw
+//fallback to draw single colored walls if no textures loaded
 void	draw_wall_textured(t_map *map, int x)
 {
 	int			end;
 	t_player	*play;
 
-	play = map->play;
+	if (!map->tex[0].img)
+		return (draw_wall(map, x));
+	play = &map->play;
 	calc_wall_height(play, x);
 	end = play->wall_height / 2 + HEIGHT / 2;
 	if (end >= HEIGHT)
