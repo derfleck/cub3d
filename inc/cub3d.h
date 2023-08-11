@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/10 17:21:40 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:28:34 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,9 @@ typedef struct s_player {
 	double	wall_x;
 	double	tex_step;
 	double	tex_pos;
+	int		wall_height;
+	int		tex_i[2];
+	int		screen_pos[2];
 
 	double	spf;
 	clock_t	prev_time;

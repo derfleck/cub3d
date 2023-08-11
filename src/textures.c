@@ -31,62 +31,57 @@ void	load_textures(t_map *map)
 	}
 }
 
-void	draw_wall_textured(t_map *map, int x)
+static void	draw_texture(t_map *map, int *screen_i, int tex)
 {
-	int			wall_height;
-	int			start_end[2];
-	t_player	*play;
-	int			coordinates[2];
-	int			color;
+	int	color;
 
-	wall_height = (int)(HEIGHT / map->play->perpwalldist);
-	start_end[0] = -wall_height / 2 + HEIGHT / 2;
-	if (start_end[0] < 0)
-		start_end[0] = 0;
-	start_end[1] = wall_height / 2 + HEIGHT / 2;
-	if (start_end[1] >= HEIGHT)
-		start_end[1] = HEIGHT - 1;
+	color = get_color_value(map, map->play->tex_i[X], map->play->tex_i[Y], tex);
+	ft_mlx_pixel_put(map->mlx->img, screen_i[X], screen_i[Y], color);
+}
 
-	play = map->play;
+static void	calc_wall_height(t_player *play, int x)
+{
+	play->wall_height = (int)(HEIGHT / play->perpwalldist);
+	play->screen_pos[X] = x;
+	play->screen_pos[Y] = -play->wall_height / 2 + HEIGHT / 2;
+	if (play->screen_pos[Y] < 0)
+		play->screen_pos[Y] = 0;
 	if (play->side)
 		play->wall_x = play->player[X] + play->perpwalldist * play->raydir[X];
 	else
 		play->wall_x = play->player[Y] + play->perpwalldist * play->raydir[Y];
 	play->wall_x -= floor(play->wall_x);
-	coordinates[X] = (int)(play->wall_x * (double)TEX);
-	//if (!(play->side == 0 && play->raydir[X] > 0) || \
-	//!(play->side == 1 && play->raydir[Y] < 0))
-	if (!(play->side && play->raydir[Y] < 0))
-		coordinates[X] = TEX - coordinates[X] - 1;
-	play->tex_step = 1.0 * ((double)TEX / (double)wall_height);
-	play->tex_pos = (start_end[0] - HEIGHT / 2 + \
-	wall_height / 2) * play->tex_step;
-	while (start_end[0] <= start_end[1])
+	play->tex_step = 1.0 * ((double)TEX / (double)play->wall_height);
+	play->tex_i[X] = (int)(play->wall_x * (double)TEX);
+	if ((play->side == 0 && play->raydir[X] < 0) || \
+	(play->side == 1 && play->raydir[Y] > 0))
+		play->tex_i[X] = TEX - play->tex_i[X] - 1;
+	play->tex_pos = (play->screen_pos[Y] - HEIGHT / 2 + \
+	play->wall_height / 2) * play->tex_step;
+}
+
+void	draw_wall_textured(t_map *map, int x)
+{
+	int			end;
+	t_player	*play;
+
+	play = map->play;
+	calc_wall_height(play, x);
+	end = play->wall_height / 2 + HEIGHT / 2;
+	if (end >= HEIGHT)
+		end = HEIGHT - 1;
+	while (play->screen_pos[Y] <= end)
 	{
-		coordinates[Y] = (int)play->tex_pos & (TEX - 1);
+		play->tex_i[Y] = (int)play->tex_pos & (TEX - 1);
 		play->tex_pos += play->tex_step;
 		if (!play->side && play->raydir[X] < 0)
-		{
-			color = get_color_value(map, coordinates[X], coordinates[Y], EAST);
-			ft_mlx_pixel_put(map->mlx->img, x, start_end[0], color);
-		}
+			draw_texture(map, play->screen_pos, EAST);
 		else if (!play->side && play->raydir[X] > 0)
-		{
-			color = get_color_value(map, coordinates[X], coordinates[Y], WEST);
-			ft_mlx_pixel_put(map->mlx->img, x, start_end[0], color);
-		}
+			draw_texture(map, play->screen_pos, WEST);
 		else if (play->side && play->raydir[Y] < 0)
-		{
-			color = get_color_value(map, coordinates[X], coordinates[Y], NORTH);
-			ft_mlx_pixel_put(map->mlx->img, x, start_end[0], color);
-		}
+			draw_texture(map, play->screen_pos, NORTH);
 		else if (play->side && play->raydir[Y] > 0)
-		{
-			color = get_color_value(map, coordinates[X], coordinates[Y], SOUTH);
-			ft_mlx_pixel_put(map->mlx->img, x, start_end[0], color);
-		}
-		//printf("%d\n", color);
-		start_end[0]++;
+			draw_texture(map, play->screen_pos, SOUTH);
+		play->screen_pos[Y]++;
 	}
-	//printf("%f\n", play->tex_pos);
 }
