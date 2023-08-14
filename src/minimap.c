@@ -69,21 +69,16 @@ static void	draw_player(t_map *map)
 
 	pos[X] = (int)(GRID * (map->play.player[X] - map->mini_start[X]));
 	pos[Y] = (int)(GRID * (map->play.player[Y]) - map->mini_start[Y]);
-	ft_mlx_pixel_put(map->mlx.img, pos[X], pos[Y], BLACK);
-
 	end_point[X] = pos[X] + (int)(10 * map->play.look_dir[X]);
 	end_point[Y] = pos[Y] + (int)(10 * map->play.look_dir[Y]);
 	ft_mlx_line(map->mlx.img, pos, end_point, GREEN);
-	printf("start: %d %d end: %d %d\n", pos[X], pos[Y], end_point[X], end_point[Y]);
-	end_point[X] = end_point[X] + (int)(5 * map->play.plane[X]);
-	end_point[Y] = end_point[Y] + (int)(5 * map->play.plane[Y]);
+	end_point[X] = end_point[X] + (int)(10 * map->play.plane[X]);
+	end_point[Y] = end_point[Y] + (int)(10 * map->play.plane[Y]);
 	ft_mlx_line(map->mlx.img, pos, end_point, GREEN);
-	printf("start: %d %d end: %d %d\n", pos[X], pos[Y], end_point[X], end_point[Y]);
-	end_point[X] = end_point[X] - (int)(10 * map->play.plane[X]);
-	end_point[Y] = end_point[Y] - (int)(10 * map->play.plane[Y]);
+	end_point[X] = end_point[X] - (int)(20 * map->play.plane[X]);
+	end_point[Y] = end_point[Y] - (int)(20 * map->play.plane[Y]);
 	ft_mlx_line(map->mlx.img, pos, end_point, GREEN);
-	printf("start: %d %d end: %d %d\n", pos[X], pos[Y], end_point[X], end_point[Y]);
-	printf("________________\n");
+	ft_mlx_pixel_put(map->mlx.img, pos[X], pos[Y], BLACK);
 }
 
 //minimap only draws a 30 x 15 item snapshot of the map

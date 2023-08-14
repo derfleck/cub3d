@@ -23,21 +23,25 @@ void	ft_mlx_line(t_img *img, int *start, int *end, int color)
 {
 	t_line	tmp;
 	int		e2;
+	int		x0;
+	int		y0;
 
+	x0 = start[X];
+	y0 = start[Y];
 	tmp = set_values(start, end);
-	while (start[X] != end[X] || start[Y] != end[Y])
+	while (x0 != end[X] || y0 != end[Y])
 	{
-		ft_mlx_pixel_put(img, start[X], start[Y], color);
+		ft_mlx_pixel_put(img, x0, y0, color);
 		e2 = 2 * tmp.err;
 		if (e2 > -tmp.dy)
 		{
 			tmp.err -= tmp.dy;
-			start[X] += tmp.sx;
+			x0 += tmp.sx;
 		}
 		if (e2 < tmp.dx)
 		{
 			tmp.err += tmp.dx;
-			start[Y] += tmp.sy;
+			y0 += tmp.sy;
 		}
 	}
 }
