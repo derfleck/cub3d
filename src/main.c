@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/11 18:03:34 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:59:24 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,29 @@ t_img	*create_img(int x, int y, void *mlx)
 	return (img);
 }
 
+static void	movement(t_map *map)
+{
+	if (map->play.walk == 1)
+		walk(map, NORTH);
+	else if (map->play.walk == 2)
+		walk(map, SOUTH);
+	if (map->play.strafe == 1)
+		strafe(map, WEST);
+	else if (map->play.strafe == 2)
+		strafe(map, EAST);
+	if (map->play.rotate == 1)
+		rotate(map, deg_to_rad(map->rot_speed));
+	else if (map->play.rotate == 2)
+		rotate(map, deg_to_rad(-map->rot_speed));
+}
+
 static int	loop_draw(t_map *map)
 {
 	t_mlx	*ptr;
 
 	ptr = &map->mlx;
 	calc_speed(&map->play);
+	movement(map);
 	draw_background(map);
 	raycast(map);
 	draw_minimap(map);
@@ -86,6 +103,8 @@ static void	create_window(t_map	*map)
 	mlx_loop_hook(map->mlx.mlx, loop_draw, map);
 	set_hooks(map);
 	mlx_loop(map->mlx.mlx);
+	mlx_do_sync(map->mlx.mlx);
+	//mlx_do_key_autorepeaton(map->mlx.mlx);
 }
 
 
@@ -110,10 +129,10 @@ int	main(int argc, char **argv)
 	int map_data_2[8][32] = {{0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1},
 	{1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0},
-	{1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1},
-	{1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0},
+	{1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1},
+	{1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0},
 	{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0},
+	{1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 	while (i < 8)
 	{
@@ -131,8 +150,8 @@ int	main(int argc, char **argv)
 	map.max[Y] = 8;
 	map.walk_speed = 0.09;
 
-	map.play.player[X] = 4.5;
-	map.play.player[Y] = 3.5;
+	map.play.player[X] = 2.5;
+	map.play.player[Y] = 5.5;
 	map.play.map = &map;
 	map.dir = 'N';
 	map.path = malloc(sizeof(char *) * 4);

@@ -23,10 +23,40 @@ void	calc_speed(t_player *play)
 			;
 		diff = target_frame_time;
 	}
-	play->map->walk_speed = diff * 20;
+	play->map->walk_speed = diff * 5;
 	play->map->rot_speed = diff * 300;
 	if (PRINT_FPS)
 		printf("%d fps\r", (int)(1 / diff));
+}
+
+//helper, checks if player could potentially slip through a corner
+static int	check_corner(t_map *map, int *next, double *speed)
+{
+	if (speed[X] > 0 && speed[Y] < 0)
+	{
+		if (next[X] - 1 >= 0 && map->map[next[Y]][next[X] - 1] == 1 && \
+		next[Y] + 1 < map->max[Y] && map->map[next[Y] + 1][next[X]] == 1)
+			return (0);
+	}
+	else if (speed[X] > 0 && speed[Y] > 0)
+	{
+		if (next[X] - 1 >= 0 && map->map[next[Y]][next[X] - 1] == 1 && \
+		next[Y] - 1 >= 0 && map->map[next[Y] - 1][next[X]] == 1)
+			return (0);
+	}
+	else if (speed[X] < 0 && speed[Y] < 0)
+	{
+		if (next[X] + 1 < map->max[X] && map->map[next[Y]][next[X] + 1] == 1 && \
+		next[Y] + 1 < map->max[Y] && map->map[next[Y] + 1][next[X]] == 1)
+			return (0);
+	}
+	else if (speed[X] < 0 && speed[Y] > 0)
+	{
+		if (next[X] + 1 < map->max[X] && map->map[next[Y]][next[X] + 1] == 1 && \
+		next[Y] - 1 >= 0 && map->map[next[Y] - 1][next[X]] == 1)
+			return (0);
+	}
+	return (1);
 }
 
 //function called when W or S are pressed, moves player forward/backward
@@ -49,6 +79,9 @@ void	walk(t_map *map, int dir)
 	if (next[X] < map->max[X] && next[Y] < map->max[Y] && \
 	map->map[next[Y]][next[X]] == 0)
 	{
+		if ((next[X] != (int)play->player[X] || \
+		next[Y] != (int)play->player[Y]) && !check_corner(map, next, speed))
+			return ;
 		play->player[X] += speed[X];
 		play->player[Y] += speed[Y];
 	}
@@ -64,10 +97,9 @@ void	strafe(t_map *map, int dir)
 	double		ang;
 
 	play = &map->play;
+	ang = deg_to_rad(90);
 	if (dir == WEST)
 		ang = deg_to_rad(-90);
-	else
-		ang = deg_to_rad(90);
 	look_side[X] = play->look_dir[X] * cos(ang) - play->look_dir[Y] * sin(ang);
 	look_side[Y] = play->look_dir[X] * sin(ang) + play->look_dir[Y] * cos(ang);
 	speed[X] = map->walk_speed * look_side[X];
@@ -77,6 +109,9 @@ void	strafe(t_map *map, int dir)
 	if (next[X] < map->max[X] && next[Y] < map->max[Y] && \
 	map->map[next[Y]][next[X]] == 0)
 	{
+		if ((next[X] != (int)play->player[X] || \
+		next[Y] != (int)play->player[Y]) && !check_corner(map, next, speed))
+			return ;
 		play->player[X] += speed[X];
 		play->player[Y] += speed[Y];
 	}

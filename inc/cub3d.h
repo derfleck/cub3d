@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/11 17:52:55 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:26:11 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@
 # define BUFFER_SIZE 1000
 # define X 0
 # define Y 1
-# define TARGET_FPS 500
-# define PRINT_FPS 1
+# define TARGET_FPS 0
+# define PRINT_FPS 0
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
 # endif
@@ -89,6 +89,9 @@ typedef struct s_player {
 	int		screen_pos[2];
 
 	clock_t	prev_time;
+	int		walk;
+	int		strafe;
+	int		rotate;
 }	t_player;
 
 typedef struct s_map {
