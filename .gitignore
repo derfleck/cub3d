@@ -4,3 +4,4 @@ cub3D
 tags
 *.o
 obj/
+mlx_linux/

@@ -6,13 +6,14 @@
 /*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/01 09:47:13 by rmocsai          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:37:25 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 # include "../mlx_linux/mlx.h"
+# include "../libft/libft.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
@@ -32,6 +33,13 @@
 # define BUFFER_SIZE 1000
 
 //structure for coordinates, using 2D single linked list
+typedef enum e_dir {
+	NORTH = 1,
+	SOUTH,
+	EAST,
+	WEST
+}	t_dir;
+
 typedef struct s_pt {
 	float_t		x;
 	float_t		y;
@@ -55,28 +63,34 @@ typedef struct s_mlx {
 }	t_mlx;
 
 typedef struct s_map {
-	char	**map;
-	char	start_orientation;
-	int		start_position_x;
-	int		start_position_y;
-	int		y_max;
+	int		**map; //has to be rectangular, no spaces, only 1s & 0s!!!
+	int		start_orientation; //use enum!!!
+	int		start_position_x; // save posi here then change it in arr to 0
+	int		start_position_y; //as above
+	int		y_max; //map dimensions
+	int		x_max; //map dimensions
 	char	*so;
 	char	*we;
 	char	*ea;
 	char	*no;
+	int		ceiling;
+	int		floor;
 }	t_map;
 
 /* Check input */
-t_map	*check_input(int argc, char **argv);
+t_map	*check_input(int argc, char **argv, t_map *map);
 int		check_file(char *file);
-int		check_before_start(argc, argv);
 int		ends_with(char *str, char *key);
 
 /* Error handling */
+void	safe_free_params(t_map *map);
+void	safe_free(void *ptr);
 void	err_before_mall(char *str);
+void	systemfail(t_map *map, int fd, char *str, char *message);
 
 /* Parsing */
-int		rgb_to_hex(char *line);
+int		get_lines(t_map *map, char *file);
+int		rgb_to_hex(char *line, t_map *map, int fd);
 
 /*  */
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);

@@ -35,3 +35,6 @@ I highly recommend the [Game Engine Black Book: Wolfenstein 3D, 2nd Edition](htt
 [Coding Train](https://www.youtube.com/watch?v=vYgIKn7iDH8) has a helpful explanation how raycasting works, but his code examples are in JS. The video series by [3DSage](https://www.youtube.com/watch?v=gYRrGTC7GtA) is closer to the subject of cub3d because it uses C and OpenGL.
 
 
+Testers:
+
+https://github.com/mlaraki/cub3D_leaks_maps_tester

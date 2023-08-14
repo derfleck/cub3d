@@ -11,11 +11,11 @@ void	print_map(char **map)
 		x = 0;
 		while (map[y][x])
 		{
-			ft_printf("%c", map[y][x]);
+			printf("%c", map[y][x]);
 			x++;
 		}
 		y++;
-		ft_printf("\n");
+		printf("\n");
 	}
 }
 
@@ -24,28 +24,33 @@ int	check_file(char *file)
 	int	fd;
 
 	fd = open(file, O_RDONLY);
-	if (fd <= 0)
+	if (fd < 0)
 		return (0);
-	if (close(fd) == -1)
+	if (close(fd) < 0)
 		return (0);
 	return (1);
 }
 
-static int	ends_with(char *str, char *key)
+int	ends_with(char *str, char *key)
 {
 	int	start;
 	int	i;
 
-	start = ft_strlen(str) - ft_strlen(key);
+	start = (int)(ft_strlen(str) - ft_strlen(key));
+	if (start <= 0)
+		return (1);
 	i = 0;
 	while (start && str[start] && key[i] && (str[start] == key[i]))
+	{
+		start++;
 		i++;
-	if (i == ft_strlen(key))
+	}
+	if (i == (int)ft_strlen(key))
 		return (1);
 	return (0);
 }
 
-int	check_before_start(argc, argv)
+static int	check_filepaths(t_map *map)
 {
 	if (!check_file(map->so) || !check_file(map->no) || \
 	!check_file(map->ea) || !check_file(map->we))
@@ -53,12 +58,21 @@ int	check_before_start(argc, argv)
 	return (0);
 }
 
-t_map	*check_input(int argc, char **argv)
+t_map	*check_input(int argc, char **argv, t_map *map)
 {
-	if (argc <= 1 || argc > 2 || (argc == 2 && !ends_with(argv[1], ".cub")) \
-	|| (argc == 2 && !check_file(argv[1])))
+	if (argc <= 1 || argc > 2 || (argc == 2 && !ends_with(argv[1], ".cub")))
 		err_before_mall("Only .cub file required as parameter");
-
-
-
+	if (argc == 2 && !check_file(argv[1]))
+		err_before_mall("Map file cannot be accessed");
+	if (!get_lines(map, argv[1]))
+	{
+		safe_free_params(map);
+		err_before_mall("Map format is not accepted");
+	}
+	if (!check_filepaths(map))
+	{
+		safe_free_params(map);
+		err_before_mall("Tiles have to be .xpm files and accessible!");
+	}
+	return (map);
 }
