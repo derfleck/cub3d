@@ -6,7 +6,7 @@
 /*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/02 16:37:25 by rmocsai          ###   ########.fr       */
+/*   Updated: 2023/08/14 13:26:10 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define WIDTH 800
 # define HEIGHT 600
 # define GRID 10
+# define TEX 64
 # define BLACK 0x00000000
 # define BLUE  0x000000FF
 # define GREEN 0x0000FF00
@@ -31,22 +32,13 @@
 # define YELLOW 0x00FFFF00
 # define WHITE 0x00FFFFFF
 # define BUFFER_SIZE 1000
-
-//structure for coordinates, using 2D single linked list
-typedef enum e_dir {
-	NORTH = 1,
-	SOUTH,
-	EAST,
-	WEST
-}	t_dir;
-
-typedef struct s_pt {
-	float_t		x;
-	float_t		y;
-	float_t		z;
-	struct s_pt	*right;
-	struct s_pt	*up;
-}	t_pt;
+# define X 0
+# define Y 1
+# define TARGET_FPS 500
+# define PRINT_FPS 1
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
 
 typedef struct s_img {
 	void	*img;
@@ -62,19 +54,52 @@ typedef struct s_mlx {
 	t_img	*img;
 }	t_mlx;
 
+typedef enum e_dir {
+	NORTH = 0,
+	SOUTH,
+	EAST,
+	WEST
+}	t_dir;
+
+typedef struct s_map	t_map;
+
+typedef struct s_player {
+	double	player[2]; //starting position (x, y) set in the middle!! (x.5, y.5)
+	double	plane[2];
+	double	look_dir[2];
+	t_map	*map;
+	double	camera_x;
+	double	raydir[2];
+	double	sidedist[2];
+	double	deltadist[2];
+	int		step[2];
+	double	perpwalldist;
+	int		side;
+	double	wall_x;
+	double	tex_step;
+	double	tex_pos;
+	int		wall_height;
+	int		tex_i[2];
+	int		screen_pos[2];
+	clock_t	prev_time;
+}	t_player;
+
 typedef struct s_map {
 	int		**map; //has to be rectangular, no spaces, only 1s & 0s!!!
-	int		start_orientation; //use enum!!!
-	int		start_position_x; // save posi here then change it in arr to 0
-	int		start_position_y; //as above
-	int		y_max; //map dimensions
-	int		x_max; //map dimensions
-	char	*so;
-	char	*we;
-	char	*ea;
-	char	*no;
+	int		max[2]; //map dimensions (max x, max y)
+	char	**paths;
 	int		ceiling;
 	int		floor;
+	char	**dir; //use enum (map.dir[NORTH] = ft_strdup"./maps/map1.cub")
+
+	t_img		tex[4];
+	double		walk_speed;
+	double		rot_speed;
+	int			mini_max[2];
+	int			mini_start[2];
+	int			mini_end[2];
+	t_player	play;
+	t_mlx		mlx;
 }	t_map;
 
 /* Check input */

@@ -38,8 +38,9 @@ void	safe_free(void *ptr)
 
 void	safe_free_params(t_map *map)
 {
-	safe_free(map->so);
-	safe_free(map->we);
-	safe_free(map->ea);
-	safe_free(map->no);
+	safe_free(map->dir[SOUTH]);
+	safe_free(map->dir[WEST]);
+	safe_free(map->dir[EAST]);
+	safe_free(map->dir[NORTH]);
+	safe_free(map->dir);
 }

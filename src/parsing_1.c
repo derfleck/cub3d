@@ -30,13 +30,13 @@ static void	check_param_lines(char *line, t_map *map, int fd)
 	if (line && (line[0] == '\0' || line[0] == '\n'))
 		return (free(line));
 	else if (!ft_strncmp("SO ", line, 3))
-		map->so = fill_params(line, map, fd);
+		map->dir[SOUTH] = fill_params(line, map, fd);
 	else if (!ft_strncmp("WE ", line, 3))
-		map->we = fill_params(line, map, fd);
+		map->dir[WEST] = fill_params(line, map, fd);
 	else if (!ft_strncmp("EA ", line, 3))
-		map->ea = fill_params(line, map, fd);
+		map->dir[EAST] = fill_params(line, map, fd);
 	else if (!ft_strncmp("NO ", line, 3))
-		map->no = fill_params(line, map, fd);
+		map->dir[NORTH] = fill_params(line, map, fd);
 	else if (!ft_strncmp("F ", line, 2))
 		map->floor = rgb_to_hex(line, map, fd);
 	else if (!ft_strncmp("C ", line, 2))
@@ -45,10 +45,22 @@ static void	check_param_lines(char *line, t_map *map, int fd)
 		systemfail(map, fd, line, "Unknown identifier!");
 }
 
+static void	init_dirs(t_map *map)
+{
+	map->dir = malloc (4 * sizeof (char *));
+	if (!map->dir)
+		err_before_mall("Malloc failed!");
+	map->dir[SOUTH] = NULL;
+	map->dir[WEST] = NULL;
+	map->dir[EAST] = NULL;
+	map->dir[NORTH] = NULL;
+}
+
 static int	get_params(int fd, t_map *map)
 {
 	char	*line;
 
+	init_dirs(map);
 	while (1)
 	{
 		errno = 0;
@@ -61,8 +73,8 @@ static int	get_params(int fd, t_map *map)
 				break ;
 		}
 		check_param_lines(line, map, fd);
-		if (map->so && map->we && map->ea && map->no && \
-		map->ceiling && map->floor)
+		if (map->dir[SOUTH] && map->dir[WEST] && map->dir[EAST] && \
+		map->dir[NORTH] && map->ceiling && map->floor)
 			break ;
 	}
 	return (1);

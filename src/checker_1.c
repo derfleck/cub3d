@@ -52,8 +52,8 @@ int	ends_with(char *str, char *key)
 
 static int	check_filepaths(t_map *map)
 {
-	if (!check_file(map->so) || !check_file(map->no) || \
-	!check_file(map->ea) || !check_file(map->we))
+	if (!check_file(map->dir[SOUTH]) || !check_file(map->dir[WEST]) || \
+	!check_file(map->dir[EAST]) || !check_file(map->dir[NORTH]))
 		return (1);
 	return (0);
 }
