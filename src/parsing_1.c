@@ -16,9 +16,9 @@ static char	*fill_params(char *line, t_map *map, int fd)
 	else
 		systemfail(map, fd, line, "System failure!");
 	if (!ends_with(tmp, ".xpm"))
-		systemfail(map, fd, line, "Texture must be .xpm file!");
+		systemfail(map, fd, tmp, "Texture must be .xpm file!");
 	if (!check_file(tmp))
-		systemfail(map, fd, line, "Texture file cannot be accessed!");
+		systemfail(map, fd, tmp, "Texture file cannot be accessed!");
 	return (tmp);
 }
 
@@ -42,10 +42,7 @@ static void	check_param_lines(char *line, t_map *map, int fd)
 	else if (!ft_strncmp("C ", line, 2))
 		map->ceiling = rgb_to_hex(line, map, fd);
 	else
-	{
-		//safe_free
-		err_before_mall("Unknown identifier!");
-	}
+		systemfail(map, fd, line, "Unknown identifier!");
 }
 
 static int	get_params(int fd, t_map *map)
