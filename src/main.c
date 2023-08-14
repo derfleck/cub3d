@@ -6,7 +6,7 @@
 /*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/14 11:42:41 by rmocsai          ###   ########.fr       */
+/*   Updated: 2023/08/14 16:14:47 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int argc, char **argv)
 	static t_map	map;
 
 	check_input(argc, argv, &map);
-	
-	safe_free_params(&map);
+
+
 	return (0);
 }

@@ -52,10 +52,10 @@ int	ends_with(char *str, char *key)
 
 static int	check_filepaths(t_map *map)
 {
-	if (!check_file(map->dir[SOUTH]) || !check_file(map->dir[WEST]) || \
-	!check_file(map->dir[EAST]) || !check_file(map->dir[NORTH]))
-		return (1);
-	return (0);
+	if (!check_file(map->path[SOUTH]) || !check_file(map->path[WEST]) || \
+	!check_file(map->path[EAST]) || !check_file(map->path[NORTH]))
+		return (0);
+	return (1);
 }
 
 t_map	*check_input(int argc, char **argv, t_map *map)

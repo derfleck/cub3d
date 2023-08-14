@@ -6,7 +6,7 @@
 #    By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 14:51:37 by mleitner          #+#    #+#              #
-#    Updated: 2023/08/02 17:13:44 by rmocsai          ###   ########.fr        #
+#    Updated: 2023/08/14 16:49:15 by rmocsai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,10 @@ SRCSLIST		:=	main.c \
 					error.c \
 					checker_1.c \
 					colors.c \
-					parsing_1.c 
+					parsing.c \
+					parsing_2.c \
+					checker_2.c \
+					get_map.c
 
 CLR_RM 			:= \033[0m
 BOLD 			:= \033[1m

@@ -6,7 +6,7 @@
 /*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/14 13:26:10 by rmocsai          ###   ########.fr       */
+/*   Updated: 2023/08/14 16:53:16 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,14 @@ typedef struct s_player {
 }	t_player;
 
 typedef struct s_map {
-	int		**map; //has to be rectangular, no spaces, only 1s & 0s!!!
+	int		index; //to keep track which line we're at
+	char	**cmap;
+	int		**map; //has to be rectangular, no spaces, only 1s & 0s & 2s!!!
 	int		max[2]; //map dimensions (max x, max y)
-	char	**paths;
+	char	**path;
 	int		ceiling;
 	int		floor;
-	char	**dir; //use enum (map.dir[NORTH] = ft_strdup"./maps/map1.cub")
+	char	dir; //single W S N or E depending on input. Then change in map to 0!!
 
 	t_img		tex[4];
 	double		walk_speed;
@@ -112,12 +114,19 @@ void	safe_free_params(t_map *map);
 void	safe_free(void *ptr);
 void	err_before_mall(char *str);
 void	systemfail(t_map *map, int fd, char *str, char *message);
+void	safe_free_fd_params_cmap(t_map *map, int fd);
 
 /* Parsing */
 int		get_lines(t_map *map, char *file);
 int		rgb_to_hex(char *line, t_map *map, int fd);
+int		get_map(t_map *map, int fd, char *line, char *file);
+int		trim_newlines(t_map *map);
 
 /*  */
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
+
+
+/* To remove - ONLY FOR DEBUG */
+void		print_map(char **map);
 
 #endif

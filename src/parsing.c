@@ -30,13 +30,13 @@ static void	check_param_lines(char *line, t_map *map, int fd)
 	if (line && (line[0] == '\0' || line[0] == '\n'))
 		return (free(line));
 	else if (!ft_strncmp("SO ", line, 3))
-		map->dir[SOUTH] = fill_params(line, map, fd);
+		map->path[SOUTH] = fill_params(line, map, fd);
 	else if (!ft_strncmp("WE ", line, 3))
-		map->dir[WEST] = fill_params(line, map, fd);
+		map->path[WEST] = fill_params(line, map, fd);
 	else if (!ft_strncmp("EA ", line, 3))
-		map->dir[EAST] = fill_params(line, map, fd);
+		map->path[EAST] = fill_params(line, map, fd);
 	else if (!ft_strncmp("NO ", line, 3))
-		map->dir[NORTH] = fill_params(line, map, fd);
+		map->path[NORTH] = fill_params(line, map, fd);
 	else if (!ft_strncmp("F ", line, 2))
 		map->floor = rgb_to_hex(line, map, fd);
 	else if (!ft_strncmp("C ", line, 2))
@@ -47,16 +47,17 @@ static void	check_param_lines(char *line, t_map *map, int fd)
 
 static void	init_dirs(t_map *map)
 {
-	map->dir = malloc (4 * sizeof (char *));
-	if (!map->dir)
+	map->path = malloc (5 * sizeof (char *));
+	if (!map->path)
 		err_before_mall("Malloc failed!");
-	map->dir[SOUTH] = NULL;
-	map->dir[WEST] = NULL;
-	map->dir[EAST] = NULL;
-	map->dir[NORTH] = NULL;
+	map->path[SOUTH] = NULL;
+	map->path[WEST] = NULL;
+	map->path[EAST] = NULL;
+	map->path[NORTH] = NULL;
+	map->path[4] = NULL;
 }
 
-static int	get_params(int fd, t_map *map)
+static void	get_params(int fd, t_map *map)
 {
 	char	*line;
 
@@ -70,14 +71,14 @@ static int	get_params(int fd, t_map *map)
 			if (errno)
 				systemfail(map, fd, NULL, "System failure");
 			else
-				break ;
+				break ; //??
 		}
+		map->index++;
 		check_param_lines(line, map, fd);
-		if (map->dir[SOUTH] && map->dir[WEST] && map->dir[EAST] && \
-		map->dir[NORTH] && map->ceiling && map->floor)
+		if (map->path[SOUTH] && map->path[WEST] && map->path[EAST] && \
+		map->path[NORTH] && map->ceiling && map->floor)
 			break ;
 	}
-	return (1);
 }
 
 int	get_lines(t_map *map, char *file)
@@ -85,15 +86,15 @@ int	get_lines(t_map *map, char *file)
 	int		fd;
 	char	*line;
 
+	line = NULL;
 	fd = open(file, O_RDONLY);
 	if (fd <= 0)
 		err_before_mall("Opening map file failed");
 	get_params(fd, map);
 	if (map->ceiling == -1 || map->floor == -1)
 		systemfail(map, fd, NULL, "Map format is not accepted");
-	line = NULL;
-	// jump_over_newlines(fd, map);
-	// save_map(fd, map, line);
-	// check_map_validity(map);
+	get_map(map, fd, line, file);
+	// get imap(map);
+	// free cmap(map);
 	return (1);
 }
