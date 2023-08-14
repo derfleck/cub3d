@@ -10,7 +10,10 @@ void	err_before_mall(char *str)
 void	systemfail(t_map *map, int fd, char *str, char *message)
 {
 	if (message)
+	{
+		ft_putstr_fd("Error\n", 2);
 		ft_putendl_fd(message, 2);
+	}
 	safe_free(str);
 	if (fd > 2)
 	{

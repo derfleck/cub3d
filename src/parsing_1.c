@@ -75,15 +75,12 @@ int	get_lines(t_map *map, char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd <= 0)
-		return (0);
-	if (!get_params(fd, map))
-		return (0);
+		err_before_mall("Opening map file failed");
+	get_params(fd, map);
 	if (map->ceiling == -1 || map->floor == -1)
-	{
-		safe_free_params(map);
-		return (0);
-	}
-	line = NULL; //jump_over_newlines(fd, map);
+		systemfail(map, fd, NULL, "Map format is not accepted");
+	line = NULL;
+	// jump_over_newlines(fd, map);
 	// save_map(fd, map, line);
 	// check_map_validity(map);
 	return (1);

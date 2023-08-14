@@ -64,11 +64,7 @@ t_map	*check_input(int argc, char **argv, t_map *map)
 		err_before_mall("Only .cub file required as parameter");
 	if (argc == 2 && !check_file(argv[1]))
 		err_before_mall("Map file cannot be accessed");
-	if (!get_lines(map, argv[1]))
-	{
-		safe_free_params(map);
-		err_before_mall("Map format is not accepted");
-	}
+	get_lines(map, argv[1]);
 	if (!check_filepaths(map))
 	{
 		safe_free_params(map);
