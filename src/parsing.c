@@ -95,6 +95,6 @@ int	get_lines(t_map *map, char *file)
 		systemfail(map, fd, NULL, "Map format is not accepted");
 	get_map(map, fd, line, file);
 	// get imap(map);
-	// free cmap(map);
+	safe_free_cmap(map);
 	return (1);
 }

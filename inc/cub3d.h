@@ -6,7 +6,7 @@
 /*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/14 16:53:16 by rmocsai          ###   ########.fr       */
+/*   Updated: 2023/08/15 15:15:39 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,17 @@ typedef struct s_map {
 t_map	*check_input(int argc, char **argv, t_map *map);
 int		check_file(char *file);
 int		ends_with(char *str, char *key);
+int		check_map_validity(t_map *map);
+int		check_walls(t_map *map);
+int		special_rows(t_map *map, int x, int y);
+int		beginning_is_space(t_map *map, int x, int y);
+int		ending_is_space(t_map *map, int x, int y);
+int		check_all_directions(t_map *map, int x, int y);
 
 /* Error handling */
-void	safe_free_params(t_map *map);
 void	safe_free(void *ptr);
+void	safe_free_params(t_map *map);
+void	safe_free_cmap(t_map *map);
 void	err_before_mall(char *str);
 void	systemfail(t_map *map, int fd, char *str, char *message);
 void	safe_free_fd_params_cmap(t_map *map, int fd);

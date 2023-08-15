@@ -108,7 +108,7 @@ int	get_map(t_map *map, int fd, char *line, char *file)
 	line = return_to_mapline(map, fd2);
 	if (!save_map(fd, line, map))
 		safe_free_fd_params_cmap(map, fd);
-	if (!trim_newlines(map)) // || !check_map_validity(map))
+	if (!trim_newlines(map) || !check_map_validity(map))
 		safe_free_fd_params_cmap(map, 0);
 	return (1);
 }
