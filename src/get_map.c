@@ -5,24 +5,24 @@ static int	save_map(int fd, char *line, t_map *map)
 	int	i;
 
 	i = 0;
-	map->cmap = malloc (map->max[Y] + 1 * sizeof (char *));
+	map->cmap = malloc ((map->max[Y] + 1) * sizeof (char *));
 	if (!map->cmap)
 		systemfail(map, fd, line, "Malloc failed!");
 	map->cmap[i] = ft_strdup(line);
 	if (!map->cmap[i])
 		systemfail(map, fd, line, "Malloc failed!");
 	safe_free(line);
-	while (++i <= map->max[Y])
+	while (++i < map->max[Y])
 	{
 		map->cmap[i] = get_next_line(fd);
 		if (!map->cmap[i])
 			return (0);
 	}
 	i--;
-	if (map->cmap[i][0] == '\n')
+	if (map->cmap[i][0] == '\n' || map->cmap[i][0] == '\0')
 		safe_free(map->cmap[i]);
 	else
-		map->cmap[i + 1] = NULL; //is this correct null terminating?
+		map->cmap[i + 1] = NULL; //is this correct for null terminating?
 	if (close(fd) == -1)
 		safe_free_fd_params_cmap(map, 0);
 	return (1);
@@ -52,9 +52,10 @@ static int	get_map_dimension_y(t_map *map, int fd, char *line)
 	{
 		safe_free(line);
 		line = get_next_line(fd);
-		if (line && line[0] == '\n')
-			break ;	
-		count++;
+		if (line && (line[0] == '\n' || line[0] == '\0'))
+			break ;
+		if (line)
+			count++;
 	}
 	while (line)
 	{
@@ -107,7 +108,6 @@ int	get_map(t_map *map, int fd, char *line, char *file)
 	line = return_to_mapline(map, fd2);
 	if (!save_map(fd, line, map))
 		safe_free_fd_params_cmap(map, fd);
-	print_map(map->cmap);
 	if (!trim_newlines(map)) // || !check_map_validity(map))
 		safe_free_fd_params_cmap(map, 0);
 	return (1);

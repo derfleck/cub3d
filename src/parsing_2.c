@@ -6,9 +6,9 @@ int	trim_newlines(t_map *map)
 	int		i;
 
 	i = -1;
-	while (map->cmap[i])
+	while (++i < map->max[Y])
 	{
-		tmp = ft_strtrim((const char *)map_cmap[i], "\n");
+		tmp = ft_strtrim((const char *)map->cmap[i], "\n");
 		if (!tmp)
 		{
 			safe_free_fd_params_cmap(map, 0);
@@ -20,5 +20,6 @@ int	trim_newlines(t_map *map)
 		if (!map->cmap[i])
 			safe_free_fd_params_cmap(map, 0);
 	}
+	print_map(map->cmap);
 	return (1);
 }

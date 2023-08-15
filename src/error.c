@@ -53,7 +53,7 @@ void	safe_free_params(t_map *map)
 	safe_free(map->path);
 }
 
-void	safe_free_map(t_map *map)
+void	safe_free_cmap(t_map *map)
 {
 	int	i;
 
@@ -70,6 +70,6 @@ void	safe_free_fd_params_cmap(t_map *map, int fd)
 	str = NULL;
 	buffer_cleaner(fd, str);
 	safe_free_params(map);
-	safe_free_map(map);
+	safe_free_cmap(map);
 	exit (1);
 }
