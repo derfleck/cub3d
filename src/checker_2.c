@@ -33,16 +33,41 @@ static int	check_valid_chars(char **map)
 	y = -1;
 	while (map[++y])
 	{
-		x = 0;
-		while (map[y][x])
+		x = -1;
+		while (map[y][++x])
 		{
 			if (map[y][x] != '0' && map[y][x] != '1' && map[y][x] != 'W' && \
 			map[y][x] != 'S' && map[y][x] != 'E' && map[y][x] != 'N' && \
 			map[y][x] != ' ')
 				return (0);
-			x++;
 		}
 	}
+	return (1);
+}
+
+static int	check_for_spaces_on_nl(char **map)
+{
+	int	x;
+	int	y;
+	int	flag;
+
+	y = -1;
+	while (map[++y])
+	{
+		x = -1;
+		flag = 1;
+		while (map[y][++x])
+		{
+			if (flag && map[y][x] == ' ')
+				flag++;
+			else
+				flag = 0;
+		}
+		if (flag != 0)
+			break ;
+	}
+	if (flag)
+		return (0);
 	return (1);
 }
 
@@ -51,7 +76,7 @@ static int	check_chars(t_map *map)
 	int	player_count;
 
 	player_count = 0;
-	if (!check_valid_chars(map->cmap))
+	if (!check_valid_chars(map->cmap) || !check_for_spaces_on_nl(map->cmap))
 	{
 		ft_putendl_fd("Error\nInvalid character in map!", 2);
 		return (0);

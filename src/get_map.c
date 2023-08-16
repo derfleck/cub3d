@@ -1,20 +1,21 @@
 #include "../inc/cub3d.h"
 
-static int	save_map(int fd, char *line, t_map *map)
+/* Don't forget to Null terminate char**   */
+static int	save_map(int fd2, char *line, t_map *map)
 {
 	int	i;
 
 	i = 0;
 	map->cmap = malloc ((map->max[Y] + 1) * sizeof (char *));
 	if (!map->cmap)
-		systemfail(map, fd, line, "Malloc failed!");
+		systemfail(map, fd2, line, "Malloc failed!");
 	map->cmap[i] = ft_strdup(line);
 	if (!map->cmap[i])
-		systemfail(map, fd, line, "Malloc failed!");
+		systemfail(map, fd2, line, "Malloc failed!");
 	safe_free(line);
 	while (++i < map->max[Y])
 	{
-		map->cmap[i] = get_next_line(fd);
+		map->cmap[i] = get_next_line(fd2);
 		if (!map->cmap[i])
 			return (0);
 	}
@@ -22,9 +23,7 @@ static int	save_map(int fd, char *line, t_map *map)
 	if (map->cmap[i][0] == '\n' || map->cmap[i][0] == '\0')
 		safe_free(map->cmap[i]);
 	else
-		map->cmap[i + 1] = NULL; //is this correct for null terminating?
-	if (close(fd) == -1)
-		safe_free_fd_params_cmap(map, 0);
+		map->cmap[i + 1] = NULL;
 	return (1);
 }
 
@@ -64,8 +63,6 @@ static int	get_map_dimension_y(t_map *map, int fd, char *line)
 		if (line && line[0] != '\n')
 			systemfail(map, fd, line, "Map content is invalid: empty line.");
 	}
-	if (close(fd) == -1)
-		systemfail(map, fd, NULL, "Failed to close map file.");
 	if (count < 3)
 		systemfail(map, fd, NULL, "Map content is invalid: too small.");
 	return (count);
@@ -94,6 +91,7 @@ static char	*jump_over_newlines(t_map *map, int fd)
 	return (tmp);
 }
 
+/* 	fds closed  */
 int	get_map(t_map *map, int fd, char *line, char *file)
 {
 	int	fd2;
@@ -105,11 +103,16 @@ int	get_map(t_map *map, int fd, char *line, char *file)
 	fd2 = open(file, O_RDONLY);
 	if (fd <= 0)
 		systemfail(map, fd, NULL, "Opening map file failed");
+	close_fd(fd, map);
 	line = return_to_mapline(map, fd2);
-	if (!save_map(fd, line, map))
-		safe_free_fd_params_cmap(map, fd);
-	if (!trim_newlines(map) || !check_map_validity(map))
+	if (!save_map(fd2, line, map))
+		safe_free_fd_params_cmap(map, fd2);
+	buffer_cleaner(fd2, line);
+	//close_fd(fd2, map);
+	if (!trim_newlines(map) || !count_rows(map) || \
+	!count_columns(map) || !check_map_validity(map))
 		safe_free_fd_params_cmap(map, 0);
+	cmap_to_imap(map);
 	return (1);
 }
 

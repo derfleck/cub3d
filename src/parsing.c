@@ -1,14 +1,14 @@
 #include "../inc/cub3d.h"
 
 /*  */ 
-static char	*fill_params(char *line, t_map *map, int fd)
+char	*fill_params(char *line, t_map *map, int fd)
 {
 	char	*tmp;
 
 	tmp = NULL;
 	if (line)
 	{
-		tmp = ft_strtrim(line, "NOASWE \n");
+		tmp = ft_strtrim(line + 2, " \n");
 		if (tmp == NULL)
 			systemfail(map, fd, line, "Malloc failed!");
 		safe_free(line);
@@ -30,31 +30,30 @@ static void	check_param_lines(char *line, t_map *map, int fd)
 	if (line && (line[0] == '\0' || line[0] == '\n'))
 		return (free(line));
 	else if (!ft_strncmp("SO ", line, 3))
-		map->path[SOUTH] = fill_params(line, map, fd);
+		linecheck_helper1(map, line, fd, SOUTH);
 	else if (!ft_strncmp("WE ", line, 3))
-		map->path[WEST] = fill_params(line, map, fd);
+		linecheck_helper1(map, line, fd, WEST);
 	else if (!ft_strncmp("EA ", line, 3))
-		map->path[EAST] = fill_params(line, map, fd);
+		linecheck_helper1(map, line, fd, EAST);
 	else if (!ft_strncmp("NO ", line, 3))
-		map->path[NORTH] = fill_params(line, map, fd);
+		linecheck_helper1(map, line, fd, NORTH);
 	else if (!ft_strncmp("F ", line, 2))
-		map->floor = rgb_to_hex(line, map, fd);
+		linecheck_helper2(map, line, fd, 'F');
 	else if (!ft_strncmp("C ", line, 2))
-		map->ceiling = rgb_to_hex(line, map, fd);
+		linecheck_helper2(map, line, fd, 'C');
 	else
 		systemfail(map, fd, line, "Unknown identifier!");
 }
 
 static void	init_dirs(t_map *map)
 {
-	map->path = malloc (5 * sizeof (char *));
+	map->path = malloc (4 * sizeof (char *));
 	if (!map->path)
 		err_before_mall("Malloc failed!");
 	map->path[SOUTH] = NULL;
 	map->path[WEST] = NULL;
 	map->path[EAST] = NULL;
 	map->path[NORTH] = NULL;
-	map->path[4] = NULL;
 }
 
 static void	get_params(int fd, t_map *map)
@@ -71,9 +70,10 @@ static void	get_params(int fd, t_map *map)
 			if (errno)
 				systemfail(map, fd, NULL, "System failure");
 			else
-				break ; //??
+				break ;
 		}
 		map->index++;
+		line = trim_spaces(line, map, fd);
 		check_param_lines(line, map, fd);
 		if (map->path[SOUTH] && map->path[WEST] && map->path[EAST] && \
 		map->path[NORTH] && map->ceiling && map->floor)
@@ -94,7 +94,6 @@ int	get_lines(t_map *map, char *file)
 	if (map->ceiling == -1 || map->floor == -1)
 		systemfail(map, fd, NULL, "Map format is not accepted");
 	get_map(map, fd, line, file);
-	// get imap(map);
 	safe_free_cmap(map);
 	return (1);
 }

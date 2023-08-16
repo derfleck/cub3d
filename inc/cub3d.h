@@ -6,7 +6,7 @@
 /*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/15 15:15:39 by rmocsai          ###   ########.fr       */
+/*   Updated: 2023/08/16 18:16:52 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef enum e_dir {
 typedef struct s_map	t_map;
 
 typedef struct s_player {
-	double	player[2]; //starting position (x, y) set in the middle!! (x.5, y.5)
+	double	player[2];
 	double	plane[2];
 	double	look_dir[2];
 	t_map	*map;
@@ -85,14 +85,14 @@ typedef struct s_player {
 }	t_player;
 
 typedef struct s_map {
-	int		index; //to keep track which line we're at
+	int		index;
 	char	**cmap;
-	int		**map; //has to be rectangular, no spaces, only 1s & 0s & 2s!!!
-	int		max[2]; //map dimensions (max x, max y)
+	int		**map;
+	int		max[2];
 	char	**path;
 	int		ceiling;
 	int		floor;
-	char	dir; //single W S N or E depending on input. Then change in map to 0!!
+	char	dir;
 
 	t_img		tex[4];
 	double		walk_speed;
@@ -110,10 +110,7 @@ int		check_file(char *file);
 int		ends_with(char *str, char *key);
 int		check_map_validity(t_map *map);
 int		check_walls(t_map *map);
-int		special_rows(t_map *map, int x, int y);
-int		beginning_is_space(t_map *map, int x, int y);
-int		ending_is_space(t_map *map, int x, int y);
-int		check_all_directions(t_map *map, int x, int y);
+int		check_neighbors(t_map *map, int x, int y);
 
 /* Error handling */
 void	safe_free(void *ptr);
@@ -122,18 +119,29 @@ void	safe_free_cmap(t_map *map);
 void	err_before_mall(char *str);
 void	systemfail(t_map *map, int fd, char *str, char *message);
 void	safe_free_fd_params_cmap(t_map *map, int fd);
+void	free_all_previous(t_map *map, int i);
+void	free_all_no_exit(t_map *map);
+void	free_all_with_exit(t_map *map);
+void	buffer_cleaner(int fd, char *str);
 
 /* Parsing */
 int		get_lines(t_map *map, char *file);
 int		rgb_to_hex(char *line, t_map *map, int fd);
 int		get_map(t_map *map, int fd, char *line, char *file);
+char	*trim_spaces(char *line, t_map *map, int fd);
+char	*fill_params(char *line, t_map *map, int fd);
+int		count_rows(t_map *map);
+int		count_columns(t_map *map);
 int		trim_newlines(t_map *map);
+void	cmap_to_imap(t_map *map);
 
-/*  */
+/* Utils */
+void	close_fd(int fd, t_map *map);
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
-
+void	linecheck_helper1(t_map *map, char *line, int fd, int dir);
+void	linecheck_helper2(t_map *map, char *line, int fd, char c);
 
 /* To remove - ONLY FOR DEBUG */
-void		print_map(char **map);
+void	print_map(char **map);
 
 #endif

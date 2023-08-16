@@ -23,3 +23,91 @@ int	trim_newlines(t_map *map)
 	print_map(map->cmap);
 	return (1);
 }
+
+// Checks if properly null terminated too, can doublecheck max[Y]
+int	count_rows(t_map *map)
+{
+	int	count;
+
+	if (!map->cmap || !map->cmap[0])
+		return (0);
+	count = 0;
+	while (map->cmap[count])
+		count++;
+	if (map->max[Y] != count)
+	{
+		ft_putendl_fd("Wrong max[Y] calculations", 2); 
+		return (0);
+	}
+	return (count);
+}
+
+// multiple line length, count the longest!!!
+int	count_columns(t_map *map)
+{
+	int	max;
+	int	j;
+	int	i;
+
+	if (!map->cmap || !map->cmap[0])
+		return (0);
+	i = -1;
+	max = 0;
+	while (map->cmap[++i])
+	{
+		j = ft_strlen(map->cmap[i]);
+		if (j > max)
+			max = j;
+	}
+	if (max < 3)
+		return (0);
+	map->max[X] = max;
+	return (1);
+}
+
+static void	print_imap(t_map *map)
+{
+	int	y;
+	int	x;
+
+	printf("\n");
+	y = -1;
+	while (++y < map->max[Y])
+	{
+		x = -1;
+		while (++x < map->max[X])
+		{
+			printf("%d", map->map[y][x]);
+		}
+		printf("\n");
+	}
+}
+
+/* Returns the null terminated (easier to free) int map */
+void	cmap_to_imap(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	map->map = malloc (sizeof(int *) * (map->max[Y]));
+	if (!map->map)
+		systemfail(map, 0, NULL, "Malloc failed!");
+	while (++i < map->max[Y])
+	{
+		map->map[i] = ft_calloc (map->max[X], sizeof(int));
+		if (!map->map[i])
+			free_all_previous(map, i);
+		j = -1;
+		while (++j < map->max[X])
+		{
+			if (map->cmap[i][j] == '0')
+				map->map[i][j] = 0;
+			else if (map->cmap[i][j] == '1')
+				map->map[i][j] = 1;
+			else
+				map->map[i][j] = 0;
+		}
+	}
+	print_imap(map);
+}

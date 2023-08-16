@@ -6,7 +6,7 @@
 #    By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 14:51:37 by mleitner          #+#    #+#              #
-#    Updated: 2023/08/15 15:48:00 by rmocsai          ###   ########.fr        #
+#    Updated: 2023/08/16 13:19:36 by rmocsai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCSLIST		:=	main.c \
 					checker_2.c \
 					checker_3.c \
 					checker_4.c \
+					utils_1.c \
 					get_map.c
 
 CLR_RM 			:= \033[0m
@@ -51,6 +52,14 @@ MLX				:= ${MLXDIR}libmlx.a
 LIBS			:= -L${LIBFTDIR} -L${MLXDIR} -lft -lmlx -lXext -lX11 -lm
 INCS			:= -I${HEADDIR} -I${LIBFTDIR} -I${MLXDIR}
 
+.PHONY:			all clean fclean re norm
+
+all:			${NAME}
+
+${NAME}:		${MLX} ${LIBFT} ${OBJSDIR} ${OBJS}
+				@echo "$(CYAN)$(BOLD)Compilation is in progress...$(CLR_RM)"
+				${CC} ${FLAGS} ${DEBUG} ${OBJS} -o ${NAME} ${LIBS} ${INCS}
+				@echo "$(CYAN)$(BOLD)You can play with $(RED)cub3D$(CYAN) now!$(CLR_RM)"
 
 ${LIBFT}:
 				make -C ${LIBFTDIR}
@@ -63,15 +72,6 @@ ${OBJSDIR}%.o:	${SRCSDIR}%.c
 
 ${OBJSDIR}:
 				mkdir -p ${OBJSDIR}
-
-.PHONY:			all clean fclean re norm
-
-all:			${NAME}
-
-${NAME}:		${MLX} ${LIBFT} ${OBJSDIR} ${OBJS}
-				@echo "$(CYAN)$(BOLD)Compilation is in progress...$(CLR_RM)"
-				${CC} ${FLAGS} ${DEBUG} ${OBJS} -o ${NAME} ${LIBS} ${INCS}
-				@echo "$(CYAN)$(BOLD)You can play with $(RED)cub3D$(CYAN) now!$(CLR_RM)"
 
 clean:
 				${RM} -r ${OBJSDIR}
