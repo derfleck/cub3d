@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:16:34 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/16 16:16:37 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:43:38 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,30 @@ static int	mouse_rotate(int x, int y, t_map *map)
 
 static int	close_cubed(t_map *map)
 {
-	(void)map;
+	int	i;
+
+	i = 0;
+	if (map->mlx.img)
+	{
+		mlx_destroy_image(map->mlx.mlx, map->mlx.img->img);
+		free(map->mlx.img);
+	}
+	if (map->mlx.win)
+		mlx_destroy_window(map->mlx.mlx, map->mlx.win);
+	while (i < 4 && &map->tex[i] && map->tex[i].img)
+		mlx_destroy_image(map->mlx.mlx, map->tex[i++].img);
+	if (map->mlx.mlx)
+	{
+		mlx_destroy_display(map->mlx.mlx);
+		free(map->mlx.mlx);
+	}
+	i = 0;
+	while (i < 4)
+		free(map->path[i++]);
+	if (map->path)
+		free(map->path);
+	if (map->map)
+		free_int_arr(map->map, map->max[Y]);
 	exit(0);
 }
 
@@ -78,6 +101,6 @@ void	set_hooks(t_map *map)
 	mlx_hook(map->mlx.win, 3, 1L << 1, check_keyrelease, map);
 	mlx_hook(map->mlx.win, 6, 1L << 6, mouse_rotate, map);
 	mlx_hook(map->mlx.win, 33, 1L << 17, close_cubed, map);
-	mlx_mouse_hide(map->mlx.mlx, map->mlx.win);
+	//mlx_mouse_hide(map->mlx.mlx, map->mlx.win);
 	mlx_mouse_move(map->mlx.mlx, map->mlx.win, HEIGHT / 2, WIDTH / 2);
 }

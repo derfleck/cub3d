@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/16 16:17:17 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:07:54 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,5 +174,8 @@ void	calc_speed(t_player *play);
 void	walk(t_map *map, int dir);
 void	strafe(t_map *map, int dir);
 void	rotate(t_map *map, double ang);
+
+//utils
+void	free_int_arr(int **arr, int size);
 
 #endif
