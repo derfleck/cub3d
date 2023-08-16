@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/14 16:26:11 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/14 22:22:14 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@
 # define BUFFER_SIZE 1000
 # define X 0
 # define Y 1
-# define TARGET_FPS 0
-# define PRINT_FPS 0
+# define TARGET_FPS 1500
+# define PRINT_FPS 1
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
 # endif
