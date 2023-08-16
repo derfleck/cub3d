@@ -65,15 +65,17 @@ static void	set_dimensions(t_map *map)
 static void	draw_player(t_map *map)
 {
 	int		pos[2];
-	int		end_point[2];
-	double	x;
-	double	y;
+	//int		end_point[2];
+	//double	x;
+	//double	y;
 
 	pos[X] = (int)(GRID * (map->play.player[X] - map->mini_start[X]));
 	pos[Y] = (int)(GRID * (map->play.player[Y]) - map->mini_start[Y]);
 
 	//end_point[X] = pos[X] + (int)(10 * map->play.look_dir[X]);
 	//end_point[Y] = pos[Y] + (int)(10 * map->play.look_dir[Y]);
+	mini_raycast(map, pos);
+	/*
 	x = map->play.player[X];
 	y = map->play.player[Y];
 	while (y >= 0 && x >= 0 && y <= map->max[Y] && x <= map->max[X] && map->map[(int)y][(int)x] != 1)
@@ -89,13 +91,6 @@ static void	draw_player(t_map *map)
 		end_point[X] = GRID;
 	else
 		end_point[X] = (int)(GRID * (x - map->mini_start[X]));
-	ft_mlx_line(map->mlx.img, pos, end_point, GREEN);
-	/*
-	end_point[X] = end_point[X] + (int)(10 * map->play.plane[X]);
-	end_point[Y] = end_point[Y] + (int)(10 * map->play.plane[Y]);
-	ft_mlx_line(map->mlx.img, pos, end_point, GREEN);
-	end_point[X] = end_point[X] - (int)(20 * map->play.plane[X]);
-	end_point[Y] = end_point[Y] - (int)(20 * map->play.plane[Y]);
 	ft_mlx_line(map->mlx.img, pos, end_point, GREEN);
 	*/
 	ft_mlx_pixel_put(map->mlx.img, pos[X], pos[Y], BLACK);

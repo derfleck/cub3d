@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/14 16:59:24 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/16 13:00:16 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ static void	create_window(t_map	*map)
 	set_hooks(map);
 	mlx_loop(map->mlx.mlx);
 	mlx_do_sync(map->mlx.mlx);
-	//mlx_do_key_autorepeaton(map->mlx.mlx);
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/14 22:22:14 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:20:19 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,19 @@ typedef struct s_map {
 	t_mlx		mlx;
 }	t_map;
 
+typedef struct s_ray
+{
+	double	player[2];
+	double	camera_x;
+	double	raydir[2];
+	double	deltadist[2];
+	double	sidedist[2];
+	int		side;
+	double	perpwalldist;
+	int		step[2];
+	int		mini_map[2];
+	int		**map;
+}	t_ray;
 
 //struct for line points
 typedef struct s_line {
@@ -141,6 +154,7 @@ void	ft_mlx_line(t_img *img, int *start, int *end, int color);
 
 //minimap functions
 void	draw_minimap(t_map *map);
+void	mini_raycast(t_map *map, int *pos);
 
 //raycasting and drawing
 void	raycast(t_map *map);

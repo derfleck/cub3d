@@ -80,9 +80,9 @@ void	draw_wall_textured(t_map *map, int x)
 		play->tex_i[Y] = (int)play->tex_pos & (TEX - 1);
 		play->tex_pos += play->tex_step;
 		if (!play->side && play->raydir[X] < 0)
-			draw_texture(map, play->screen_pos, EAST);
-		else if (!play->side && play->raydir[X] > 0)
 			draw_texture(map, play->screen_pos, WEST);
+		else if (!play->side && play->raydir[X] > 0)
+			draw_texture(map, play->screen_pos, EAST);
 		else if (play->side && play->raydir[Y] < 0)
 			draw_texture(map, play->screen_pos, NORTH);
 		else if (play->side && play->raydir[Y] > 0)
