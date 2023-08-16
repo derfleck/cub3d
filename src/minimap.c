@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minimap.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/16 16:17:10 by mleitner          #+#    #+#             */
+/*   Updated: 2023/08/16 16:17:43 by mleitner         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
 //draws cube in the size of len on pos[X/Y]
@@ -65,34 +77,10 @@ static void	set_dimensions(t_map *map)
 static void	draw_player(t_map *map)
 {
 	int		pos[2];
-	//int		end_point[2];
-	//double	x;
-	//double	y;
 
 	pos[X] = (int)(GRID * (map->play.player[X] - map->mini_start[X]));
 	pos[Y] = (int)(GRID * (map->play.player[Y]) - map->mini_start[Y]);
-
-	//end_point[X] = pos[X] + (int)(10 * map->play.look_dir[X]);
-	//end_point[Y] = pos[Y] + (int)(10 * map->play.look_dir[Y]);
 	mini_raycast(map, pos);
-	/*
-	x = map->play.player[X];
-	y = map->play.player[Y];
-	while (y >= 0 && x >= 0 && y <= map->max[Y] && x <= map->max[X] && map->map[(int)y][(int)x] != 1)
-	{
-		x += map->play.look_dir[X];
-		y += map->play.look_dir[Y];
-	}
-	if (y < 0)
-		end_point[Y] = GRID;
-	else
-		end_point[Y] = (int)(GRID * (y - map->mini_start[Y]));
-	if (x < 0)
-		end_point[X] = GRID;
-	else
-		end_point[X] = (int)(GRID * (x - map->mini_start[X]));
-	ft_mlx_line(map->mlx.img, pos, end_point, GREEN);
-	*/
 	ft_mlx_pixel_put(map->mlx.img, pos[X], pos[Y], BLACK);
 }
 
