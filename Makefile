@@ -6,7 +6,7 @@
 #    By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/17 12:57:01 by mleitner          #+#    #+#              #
-#    Updated: 2023/08/17 16:31:44 by mleitner         ###   ########.fr        #
+#    Updated: 2023/08/17 17:00:56 by mleitner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,10 +52,10 @@ RED		    	:= \033[1;31m
 SRCS			:= $(addprefix ${SRCSDIR}, ${SRCSLIST})
 
 OBJSDIR			:= ./obj/
-OBJS			:= $(addprefix ${OBJSDIR}, ${OBJSLIST})
 OBJSLIST		:= ${SRCSLIST:.c=.o}
-BONUSOBJS		:= $(addprefix ${OBJSDIR}, ${BONUSOBJSLIST})
+OBJS			:= $(addprefix ${OBJSDIR}, ${OBJSLIST})
 BONUSOBJSLIST	:= ${BONUSSRCSLIST:.c=.o}
+BONUSOBJS		:= $(addprefix ${OBJSDIR}, ${BONUSOBJSLIST})
 
 HEADDIR			:= ./inc/
 
