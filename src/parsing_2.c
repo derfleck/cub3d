@@ -91,3 +91,42 @@ void	cmap_to_imap(t_map *map)
 		}
 	}
 }
+
+/*
+void	print_imap(t_map *map)
+{
+	int	y;
+	int	x;
+
+	printf("\n");
+	y = -1;
+	while (++y < map->max[Y])
+	{
+		x = -1;
+		while (++x < map->max[X])
+		{
+			printf("%d", map->map[y][x]);
+		}
+		printf("\n");
+	}
+}
+
+void	print_cmap(char **map)
+{
+	unsigned int	x;
+	unsigned int	y;
+
+	y = 0;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			printf("%c", map[y][x]);
+			x++;
+		}
+		y++;
+		printf("\n");
+	}
+}
+*/

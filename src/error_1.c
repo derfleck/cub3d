@@ -43,7 +43,6 @@ void	systemfail(t_map *map, int fd, char *str, char *message)
 	exit (1);
 }
 
-
 void	safe_free_params(t_map *map)
 {
 	int	i;

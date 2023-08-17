@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
 /*   Updated: 2023/08/17 16:48:20 by mleitner         ###   ########.fr       */
@@ -20,7 +20,6 @@
 # include <fcntl.h>
 # include <X11/keysym.h>
 # include <errno.h>
-# include <float.h>
 # include <time.h>
 # include <mlx.h>
 # define WIDTH 800
@@ -38,6 +37,8 @@
 # define Y 1
 # define TARGET_FPS 1500
 # define PRINT_FPS 0
+# define DBL_MIN 2.2250738585072014e-308
+# define DBL_MAX 1.7976931348623157e+308
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
 # endif
@@ -184,6 +185,7 @@ int		ends_with(char *str, char *key);
 int		check_map_validity(t_map *map);
 int		check_walls(t_map *map);
 int		check_neighbors(t_map *map, int x, int y);
+int		check_xpmcontent(char *path);
 
 /* Error handling */
 void	safe_free(void *ptr);
@@ -200,7 +202,7 @@ void	buffer_cleaner(int fd, char *str);
 
 /* Parsing */
 int		get_lines(t_map *map, char *file);
-int		rgb_to_hex(char *line, t_map *map, int fd);
+int		rgb_to_hex(char *line, t_map *map, int fd, char id);
 int		get_map(t_map *map, int fd, char *line, char *file);
 char	*trim_spaces(char *line, t_map *map, int fd);
 char	*fill_params(char *line, t_map *map, int fd);
