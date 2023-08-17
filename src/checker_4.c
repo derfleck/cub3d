@@ -1,34 +1,32 @@
 #include "../inc/cub3d.h"
 
-/* Cant be first or last row & first or last char!
-   x and y position stands for a '0' in map.
-	- check all directions - should be safe from borders!
-	- !!!! make sure to only check if line below / above is long enough!! */	
-int	check_neighbors(t_map *map, int x, int y)
+int	get_start_position(t_map *map)
 {
-	if ((int)ft_strlen(map->cmap[y - 1]) >= x)
+	int	x;
+	int	y;
+
+	y = -1;
+	while (map->cmap[++y])
 	{
-		if (map->cmap[y - 1][x] != '1' && map->cmap[y - 1][x] != '0')
-			return (0);
+		x = -1;
+		while (map->cmap[y][++x])
+		{
+			if (map->cmap[y][x] == 'S' || map->cmap[y][x] == 'W' || \
+			map->cmap[y][x] == 'E' || map->cmap[y][x] == 'N')
+				break ;
+		}
+		if (map->cmap[y][x] == 'S' || map->cmap[y][x] == 'W' || \
+		map->cmap[y][x] == 'E' || map->cmap[y][x] == 'N')
+			break ;
 	}
-	else if ((int)ft_strlen(map->cmap[y - 1]) < x)
-		return (0);
-	if (map->cmap[y][x - 1] != '1' && map->cmap[y][x - 1] != '0' )
-		return (0);
-	if (map->cmap[y][x + 1] != '1' && map->cmap[y][x + 1] != '0' )
-		return (0);
-	if ((int)ft_strlen(map->cmap[y + 1]) >= x)
-	{
-		if (map->cmap[y + 1][x] != '1' && map->cmap[y + 1][x] != '0' )
-			return (0);
-	}
-	else if ((int)ft_strlen(map->cmap[y + 1]) < x)
-		return (0);
+	map->cmap[y][x] = '0';
+	map->play.player[Y] = (double)y + 0.5;
+	map->play.player[X] = (double)x + 0.5;
 	return (1);
 }
 
 //use GNL to read first line, open close, first line has to be "/* XPM */"
-int	check_xpmcontent(char *path)
+static int	check_xpmcontent(char *path)
 {
 	int		fd;
 	char	*tmp;
@@ -45,7 +43,37 @@ int	check_xpmcontent(char *path)
 	if (ft_strncmp(tmp, "/* XPM */", 9))
 	{
 		free(tmp);
+		buffer_cleaner(fd, tmp);
 		return (0);
 	}
+	free(tmp);
+	buffer_cleaner(fd, tmp);
 	return (1);
+}
+
+/* trims extra spaces from paths and checks them
+	- .xpm extension
+	- accessible
+	- first line has to be specific  */ 
+char	*fill_params(char *line, t_map *map, int fd)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	if (line)
+	{
+		tmp = ft_strtrim(line + 2, " ");
+		if (tmp == NULL)
+			systemfail(map, fd, line, "Malloc failed!");
+		safe_free(line);
+	}
+	else
+		systemfail(map, fd, line, "System failure!");
+	if (!ends_with(tmp, ".xpm"))
+		systemfail(map, fd, tmp, "Texture must be .xpm file!");
+	if (!check_file(tmp))
+		systemfail(map, fd, tmp, "Texture file cannot be accessed!");
+	if (!check_xpmcontent(tmp))
+		systemfail(map, fd, tmp, "Texture file is corrupt!");
+	return (tmp);
 }

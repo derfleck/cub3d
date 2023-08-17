@@ -40,6 +40,33 @@ static int	check_middle_lines(t_map *map)
 	return (1);
 }
 
+/* Cant be first or last row & first or last char!
+   x and y position stands for a '0' in map.
+	- check all directions - should be safe from borders!
+	- !!!! make sure to only check if line below / above is long enough!! */	
+static int	check_neighbors(t_map *map, int x, int y)
+{
+	if ((int)ft_strlen(map->cmap[y - 1]) >= x)
+	{
+		if (map->cmap[y - 1][x] != '1' && map->cmap[y - 1][x] != '0')
+			return (0);
+	}
+	else if ((int)ft_strlen(map->cmap[y - 1]) < x)
+		return (0);
+	if (map->cmap[y][x - 1] != '1' && map->cmap[y][x - 1] != '0' )
+		return (0);
+	if (map->cmap[y][x + 1] != '1' && map->cmap[y][x + 1] != '0' )
+		return (0);
+	if ((int)ft_strlen(map->cmap[y + 1]) >= x)
+	{
+		if (map->cmap[y + 1][x] != '1' && map->cmap[y + 1][x] != '0' )
+			return (0);
+	}
+	else if ((int)ft_strlen(map->cmap[y + 1]) < x)
+		return (0);
+	return (1);
+}
+
 /* Around spaces there can be only 1s or other spaces. */
 static int	check_around_zeros(t_map *map)
 {
@@ -59,31 +86,6 @@ static int	check_around_zeros(t_map *map)
 			}
 		}
 	}
-	return (1);
-}
-
-static int	get_start_position(t_map *map)
-{
-	int	x;
-	int	y;
-
-	y = -1;
-	while (map->cmap[++y])
-	{
-		x = -1;
-		while (map->cmap[y][++x])
-		{
-			if (map->cmap[y][x] == 'S' || map->cmap[y][x] == 'W' || \
-			map->cmap[y][x] == 'E' || map->cmap[y][x] == 'N')
-				break ;
-		}
-		if (map->cmap[y][x] == 'S' || map->cmap[y][x] == 'W' || \
-		map->cmap[y][x] == 'E' || map->cmap[y][x] == 'N')
-			break ;
-	}
-	map->cmap[y][x] = '0';
-	map->play.player[Y] = (double)y + 0.5;
-	map->play.player[X] = (double)x + 0.5;
 	return (1);
 }
 
