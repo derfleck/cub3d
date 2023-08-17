@@ -1,24 +1,5 @@
 #include "../inc/cub3d.h"
 
-void	print_map(char **map)
-{
-	unsigned int	x;
-	unsigned int	y;
-
-	y = 0;
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			printf("%c", map[y][x]);
-			x++;
-		}
-		y++;
-		printf("\n");
-	}
-}
-
 int	check_file(char *file)
 {
 	int	fd;
