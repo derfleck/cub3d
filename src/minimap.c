@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:17:10 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/16 16:17:43 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:35:30 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ static void	set_dimensions(t_map *map)
 		map->mini_max[X] = 30;
 	else
 		map->mini_max[X] = map->max[X];
-	if (map->max[Y] > 15)
-		map->mini_max[Y] = 15;
+	if (map->max[Y] > 20)
+		map->mini_max[Y] = 20;
 	else
 		map->mini_max[Y] = map->max[Y];
 }
@@ -84,9 +84,9 @@ static void	draw_player(t_map *map)
 	ft_mlx_pixel_put(map->mlx.img, pos[X], pos[Y], BLACK);
 }
 
-//minimap only draws a 30 x 15 item snapshot of the map
+//minimap only draws a 30 x 20 item snapshot of the map
 //this ensures that also huge maps can be loaded and the
-//viewspace is never blocked by the minimap (max 240 x 120 px)
+//viewspace is never blocked by the minimap (max 240 x 160 px)
 //checks if map array exists or has size
 void	draw_minimap(t_map *map)
 {

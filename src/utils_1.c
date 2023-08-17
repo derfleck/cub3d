@@ -43,3 +43,15 @@ void	linecheck_helper2(t_map *map, char *line, int fd, char c)
 		map->ceiling = rgb_to_hex(line, map, fd);
 	}
 }
+
+//frees int array up to a certain specified size
+void	free_int_arr(int **arr, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+		free(arr[i++]);
+	if (arr)
+		free(arr);
+}
