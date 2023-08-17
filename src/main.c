@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 13:13:44 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:23:35 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	movement(t_map *map)
 		walk(map, SOUTH);
 	if (map->play.strafe == 1)
 		strafe(map, WEST);
-	else if (map->play.strafe == 2)
+	if (map->play.strafe == 2)
 		strafe(map, EAST);
 	if (map->play.rotate == 1)
 		rotate(map, deg_to_rad(map->rot_speed));
@@ -106,7 +106,6 @@ static void	create_window(t_map	*map)
 	mlx_do_sync(map->mlx.mlx);
 }
 
-
 int	main(int argc, char **argv)
 {
 	static t_map	map;
@@ -117,4 +116,3 @@ int	main(int argc, char **argv)
 	create_window(&map);
 	return (0);
 }
-

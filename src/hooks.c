@@ -6,29 +6,11 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:16:34 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/16 18:43:38 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:24:18 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
-
-//resets values to 0 after key release
-static int	check_keyrelease(int keycode, t_map *map)
-{
-	if (keycode == XK_W || keycode == XK_w)
-		map->play.walk = 0;
-	else if (keycode == XK_S || keycode == XK_s)
-		map->play.walk = 0;
-	else if (keycode == XK_A || keycode == XK_a)
-		map->play.strafe = 0;
-	else if (keycode == XK_D || keycode == XK_d)
-		map->play.strafe = 0;
-	else if (keycode == XK_Left || keycode == XK_KP_Left)
-		map->play.rotate = 0;
-	else if (keycode == XK_Right || keycode == XK_KP_Right)
-		map->play.rotate = 0;
-	return (0);
-}
 
 //helper to check which button has been pressed
 static int	check_keypress(int keycode, t_map *map)
@@ -55,7 +37,7 @@ static int	mouse_rotate(int x, int y, t_map *map)
 	(void)y;
 	if (x > (WIDTH / 1.5))
 	{
-		rotate(map, deg_to_rad(-map->rot_speed) * 4);
+		rotate(map, -deg_to_rad(map->rot_speed) * 4);
 		mlx_mouse_move(map->mlx.mlx, map->mlx.win, HEIGHT / 2, WIDTH / 2);
 	}
 	else if (x < (WIDTH / 4))
@@ -93,6 +75,26 @@ static int	close_cubed(t_map *map)
 	if (map->map)
 		free_int_arr(map->map, map->max[Y]);
 	exit(0);
+}
+
+//resets values to 0 after key release
+static int	check_keyrelease(int keycode, t_map *map)
+{
+	if (keycode == XK_W || keycode == XK_w)
+		map->play.walk = 0;
+	else if (keycode == XK_S || keycode == XK_s)
+		map->play.walk = 0;
+	else if (keycode == XK_A || keycode == XK_a)
+		map->play.strafe = 0;
+	else if (keycode == XK_D || keycode == XK_d)
+		map->play.strafe = 0;
+	else if (keycode == XK_Left || keycode == XK_KP_Left)
+		map->play.rotate = 0;
+	else if (keycode == XK_Right || keycode == XK_KP_Right)
+		map->play.rotate = 0;
+	else if (keycode == XK_Escape)
+		close_cubed(map);
+	return (0);
 }
 
 void	set_hooks(t_map *map)

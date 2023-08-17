@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:16:47 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/16 16:16:47 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:19:55 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,33 @@ void	set_direction(t_map *map)
 {
 	if (map->dir == 'N' || map->dir == 'S')
 	{
-		map->play.plane[X] = 0.66;
-		map->play.plane[Y] = 0;
-		map->play.look_dir[X] = 0;
+		map->play.plane[Y] = 0.0;
+		map->play.look_dir[X] = 0.0;
 		if (map->dir == 'N')
-			map->play.look_dir[Y] = -1;
+		{
+			map->play.plane[X] = -0.66;
+			map->play.look_dir[Y] = -1.0;
+		}
 		else if (map->dir == 'S')
-			map->play.look_dir[Y] = 1;
+		{
+			map->play.plane[X] = 0.66;
+			map->play.look_dir[Y] = 1.0;
+		}
 	}
 	else if (map->dir == 'E' || map->dir == 'W')
 	{
-		map->play.plane[X] = 0;
-		map->play.plane[Y] = 0.66;
-		map->play.look_dir[Y] = 0;
+		map->play.plane[X] = 0.0;
+		map->play.look_dir[Y] = 0.0;
 		if (map->dir == 'E')
-			map->play.look_dir[X] = 1;
+		{
+			map->play.plane[Y] = 0.66;
+			map->play.look_dir[X] = 1.0;
+		}
 		else if (map->dir == 'W')
-			map->play.look_dir[X] = -1;
+		{
+			map->play.plane[Y] = -0.66;
+			map->play.look_dir[X] = -1.0;
+		}
 	}
 }
 
