@@ -6,7 +6,7 @@
 /*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 17:03:15 by rmocsai          ###   ########.fr       */
+/*   Updated: 2023/08/17 16:48:20 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define X 0
 # define Y 1
 # define TARGET_FPS 1500
-# define PRINT_FPS 1
+# define PRINT_FPS 0
 # define DBL_MIN 2.2250738585072014e-308
 # define DBL_MAX 1.7976931348623157e+308
 # ifndef M_PI
@@ -147,6 +147,7 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 int		get_color_value(t_map *map, int x, int y, int i);
 double	deg_to_rad(double deg);
 void	mat_mul(double *val, t_mat mat);
+t_img	*create_img(int x, int y, void *mlx);
 
 //line drawing
 void	ft_mlx_line(t_img *img, int *start, int *end, int color);
@@ -216,7 +217,6 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	linecheck_helper1(t_map *map, char *line, int fd, int dir);
 void	linecheck_helper2(t_map *map, char *line, int fd, char c);
 
-/* To remove - ONLY FOR DEBUG */
-void	print_map(char **map);
+void	free_and_exit(t_map *map, int code);
 
 #endif

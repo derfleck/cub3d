@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:16:29 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/16 16:16:29 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:03:11 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	load_textures(t_map *map)
 		{
 			while (--i >= 0)
 				mlx_destroy_image(map->mlx.mlx, map->tex[i].img);
-			return ;
+			return (perror("Error loading textures\n"));
 		}
 		map->tex[i].addr = mlx_get_data_addr(map->tex[i].img, &map->tex[i].bpp, \
 		&map->tex[i].line_len, &map->tex[i].endian);
@@ -36,7 +36,7 @@ void	load_textures(t_map *map)
 		{
 			while (--i >= 0)
 				mlx_destroy_image(map->mlx.mlx, map->tex[i].img);
-			return ;
+			return (perror("Error getting texture address\n"));
 		}
 		i++;
 	}

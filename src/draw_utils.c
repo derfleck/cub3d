@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:17:04 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/16 16:17:07 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:41:21 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,18 @@ int	get_color_value(t_map *map, int x, int y, int i)
 {
 	return (*(int *)(map->tex[i].addr
 		+ (y * map->tex[i].line_len + x * (map->tex[i].bpp / 8))));
+}
+
+//creates image struct
+t_img	*create_img(int x, int y, void *mlx)
+{
+	t_img	*img;
+
+	img = malloc(sizeof(t_img));
+	if (!img)
+		return (NULL);
+	img->img = mlx_new_image(mlx, x, y);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, \
+	&img->line_len, &img->endian);
+	return (img);
 }

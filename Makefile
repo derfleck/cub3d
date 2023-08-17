@@ -6,11 +6,12 @@
 #    By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/17 12:57:01 by mleitner          #+#    #+#              #
-#    Updated: 2023/08/17 14:44:43 by rmocsai          ###   ########.fr        #
+#    Updated: 2023/08/17 17:00:56 by mleitner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			:= cub3D
+BONUSNAME		:= cub3D_bonus
 CC				:= cc
 RM		    	:= rm -f
 FLAGS			:= -Wall -Wextra -Werror
@@ -38,6 +39,8 @@ SRCSLIST		:= main.c\
 					checker_4.c \
 					utils_1.c \
 					get_map.c
+BONUSSRCSLIST	:= ${SRCSLIST:.c=_bonus.c}
+BONUSSRCS		:= $(addprefix ${SRCSDIR}, ${BONUSSRCSLIST})
 
 CLR_RM 			:= \033[0m
 BOLD 			:= \033[1m
@@ -50,6 +53,8 @@ SRCS			:= $(addprefix ${SRCSDIR}, ${SRCSLIST})
 OBJSDIR			:= ./obj/
 OBJSLIST		:= ${SRCSLIST:.c=.o}
 OBJS			:= $(addprefix ${OBJSDIR}, ${OBJSLIST})
+BONUSOBJSLIST	:= ${BONUSSRCSLIST:.c=.o}
+BONUSOBJS		:= $(addprefix ${OBJSDIR}, ${BONUSOBJSLIST})
 
 HEADDIR			:= ./inc/
 
@@ -59,7 +64,7 @@ LIBFT			:= ${LIBFTDIR}libft.a
 LIBS			:= -L${LIBFTDIR} -lft -lmlx -lXext -lX11 -lm
 INCS			:= -I${HEADDIR} -I${LIBFTDIR}
 
-.PHONY:			all clean fclean re norm
+.PHONY:			all clean fclean re norm bonus
 
 all:			${NAME}
 
@@ -67,6 +72,11 @@ ${NAME}:		${LIBFT} ${OBJSDIR} ${OBJS}
 				@echo "$(CYAN)$(BOLD)Compilation is in progress...$(CLR_RM)"
 				${CC} ${FLAGS} ${DEBUG} ${OBJS} -o ${NAME} ${LIBS} ${INCS}
 				@echo "$(CYAN)$(BOLD)You can play with $(RED)cub3D$(CYAN) now!$(CLR_RM)"
+
+${BONUSNAME}:	${LIBFT} ${OBJSDIR} ${BONUSOBJS}
+				@echo "$(CYAN)$(BOLD)Compilation is in progress...$(CLR_RM)"
+				${CC} ${FLAGS} ${DEBUG} ${BONUSOBJS} -o ${BONUSNAME} ${LIBS} ${INCS}
+				@echo "$(CYAN)$(BOLD)You can play with $(RED)cub3D_bonus$(CYAN) now!$(CLR_RM)"
 
 ${LIBFT}:
 				make -C ${LIBFTDIR}
@@ -83,9 +93,12 @@ clean:
 
 fclean:			clean
 				${RM} ${NAME}
+				${RM} ${BONUSNAME}
 				make -C ${LIBFTDIR} fclean
 
 re:				fclean all
+
+bonus:			${BONUSNAME}
 
 make norm:
 				norminette ${SRCSDIR} ${HEADDIR}
