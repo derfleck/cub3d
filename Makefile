@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/03/15 14:51:37 by mleitner          #+#    #+#              #
-#    Updated: 2023/08/17 09:57:16 by rmocsai          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME			:= cub3D
 CC				:= cc
 RM		    	:= rm -f
@@ -17,7 +5,16 @@ FLAGS			:= -Wall -Wextra -Werror
 DEBUG			:= -g
 
 SRCSDIR			:= ./src/
-SRCSLIST		:=	main.c \
+SRCSLIST		:= main.c\
+					minimap.c\
+					raycast.c\
+					draw.c\
+					move.c\
+					draw_utils.c\
+					textures.c\
+					hooks.c\
+					line.c\
+					minimap_raycast.c \
 					error_1.c \
 					error_2.c \
 					error_3.c \
