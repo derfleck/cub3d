@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:27:39 by mleitner          #+#    #+#             */
-/*   Updated: 2023/03/27 17:07:14 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:51:04 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,20 @@ static char	*ft_read_file(char *buffer, int fd)
 
 	if (!buffer)
 		buffer = ft_calloc(1, 1);
+	if (!buffer)
+		return (NULL);
 	tempbuf = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	bread = read(fd, tempbuf, BUFFER_SIZE);
-	while (bread > 0)
+	while (tempbuf && bread > 0)
 	{
 		tempbuf[bread] = '\0';
 		buffer = ft_unite(buffer, tempbuf);
-		if (ft_strrchr(buffer, '\n'))
+		if (!buffer || ft_strrchr(buffer, '\n'))
 			break ;
 		bread = read(fd, tempbuf, BUFFER_SIZE);
 	}
 	free(tempbuf);
-	if (bread < 0 || buffer[0] == '\0')
+	if (buffer && (bread < 0 || buffer[0] == '\0'))
 	{
 		free(buffer);
 		buffer = NULL;
@@ -61,6 +63,8 @@ static char	*ft_find_line(char *buffer)
 	while (buffer[index] != '\n' && buffer[index])
 		index++;
 	line = ft_calloc(index + 2, sizeof(char));
+	if (!line)
+		return (NULL);
 	index = 0;
 	while (buffer[index] != '\n' && buffer[index])
 	{
@@ -87,6 +91,8 @@ static char	*ft_change_buffer(char *buffer)
 	if (buffer[i])
 		i++;
 	newbuf = ft_calloc((ft_strlen(buffer) - i) + 1, sizeof(char));
+	if (!newbuf)
+		return (NULL);
 	while (buffer[i])
 		newbuf[j++] = buffer[i++];
 	free(buffer);

@@ -20,10 +20,10 @@ char	*ft_strdup(const char *s)
 
 	i = 0;
 	j = 0;
+	if (!s)
+		return (NULL);
 	while (s[i] != '\0')
-	{
 		i++;
-	}
 	tab = malloc((sizeof(char) * i) + 1);
 	if (!tab)
 		return (0);
