@@ -6,13 +6,12 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 12:49:58 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 12:58:32 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-# include "../mlx_linux/mlx.h"
 # include "../libft/libft.h"
 # include <stdlib.h>
 # include <stdio.h>
@@ -23,6 +22,7 @@
 # include <errno.h>
 # include <float.h>
 # include <time.h>
+# include <mlx.h>
 # define WIDTH 800
 # define HEIGHT 600
 # define GRID 8

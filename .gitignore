@@ -3,5 +3,6 @@ cub3D
 *.txt
 tags
 *.o
+*.a
 obj/
 mlx_linux/

@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 12:44:13 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 13:13:44 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,59 +110,10 @@ static void	create_window(t_map	*map)
 int	main(int argc, char **argv)
 {
 	static t_map	map;
-	int				i;
-	int				j;
 
-	i = 0;
-	map.map = get_int_array(32, 8);
-	/*
-	int map_data[8][8] = {{0, 0, 1, 1, 1, 0, 0, 1},
-	{1, 1, 0, 0, 0, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 1, 0},
-	{1, 0, 1, 1, 0, 1, 1, 1},
-	{1, 1, 0, 0, 0, 0, 1, 0},
-	{0, 1, 0, 0, 0, 0, 1, 1},
-	{1, 1, 0, 0, 0, 0, 1, 0},
-	{1, 1, 1, 1, 1, 1, 1, 1}};
-	*/
-	int map_data_2[8][32] = {{0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1},
-	{1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0},
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1},
-	{1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0},
-	{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
-	while (i < 8)
-	{
-		j = 0;
-		while (j < 32)
-		{
-			map.map[i][j] = map_data_2[i][j];
-			j++;
-		}
-		i++;
-	}
-	map.ceiling = BLUE;
-	map.floor = BLACK;
-	map.max[X] = 32;
-	map.max[Y] = 8;
-	map.walk_speed = 0.09;
-
-	map.play.player[X] = 2.5;
-	map.play.player[Y] = 5.5;
 	map.play.map = &map;
-	map.dir = 'N';
-	map.path = malloc(sizeof(char *) * 4);
-	map.path[NORTH] = ft_strdup("tiles/north.xpm");
-	map.path[SOUTH] = ft_strdup("tiles/south.xpm");
-	map.path[EAST] = ft_strdup("tiles/east.xpm");
-	map.path[WEST] = ft_strdup("tiles/west.xpm");
+	check_input(argc, argv, &map);
 	set_direction(&map);
-
-	(void)argc;
-	(void)argv;
-
 	create_window(&map);
 	return (0);
 }
