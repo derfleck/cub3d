@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
+/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 16:48:20 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:14:17 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,6 @@ void	cmap_to_imap(t_map *map);
 
 /* Utils */
 void	close_fd(int fd, t_map *map);
-void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	linecheck_helper1(t_map *map, char *line, int fd, int dir);
 void	linecheck_helper2(t_map *map, char *line, int fd, char c);
 
