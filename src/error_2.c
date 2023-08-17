@@ -31,7 +31,7 @@ void	safe_free_fd_params_cmap(t_map *map, int fd)
 	exit (1);
 }
 
-/* frees params, cmap and imap till i*/
+/* Special case - frees params, cmap and imap till i */
 void	free_all_previous(t_map *map, int i)
 {
 	int	j;
