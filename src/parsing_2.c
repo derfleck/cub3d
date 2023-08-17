@@ -20,7 +20,6 @@ int	trim_newlines(t_map *map)
 		if (!map->cmap[i])
 			safe_free_fd_params_cmap(map, 0);
 	}
-	print_map(map->cmap);
 	return (1);
 }
 
@@ -65,24 +64,6 @@ int	count_columns(t_map *map)
 	return (1);
 }
 
-static void	print_imap(t_map *map)
-{
-	int	y;
-	int	x;
-
-	printf("\n");
-	y = -1;
-	while (++y < map->max[Y])
-	{
-		x = -1;
-		while (++x < map->max[X])
-		{
-			printf("%d", map->map[y][x]);
-		}
-		printf("\n");
-	}
-}
-
 /* Returns the null terminated (easier to free) int map */
 void	cmap_to_imap(t_map *map)
 {
@@ -109,5 +90,43 @@ void	cmap_to_imap(t_map *map)
 				map->map[i][j] = 0;
 		}
 	}
-	print_imap(map);
 }
+
+/*
+void	print_imap(t_map *map)
+{
+	int	y;
+	int	x;
+
+	printf("\n");
+	y = -1;
+	while (++y < map->max[Y])
+	{
+		x = -1;
+		while (++x < map->max[X])
+		{
+			printf("%d", map->map[y][x]);
+		}
+		printf("\n");
+	}
+}
+
+void	print_cmap(char **map)
+{
+	unsigned int	x;
+	unsigned int	y;
+
+	y = 0;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			printf("%c", map[y][x]);
+			x++;
+		}
+		y++;
+		printf("\n");
+	}
+}
+*/

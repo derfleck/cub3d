@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:16:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/16 16:17:01 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:13:58 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,38 @@ static void	init_arr(int *rgb, int size)
 		rgb[i++] = 0;
 }
 
-static int	check_colorcode(char **line, t_map *map, int fd)
+static char	*check_colorcode_helper(char **line, t_map *map, int fd, char id)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	if (id == 'F')
+	{
+		tmp = ft_strtrim(*line, "F \n");
+		if (tmp == NULL)
+			systemfail(map, fd, *line, "Malloc failed!");
+		safe_free(*line);
+		*line = tmp;
+	}
+	if (id == 'C')
+	{
+		tmp = ft_strtrim(*line, "C \n");
+		if (tmp == NULL)
+			systemfail(map, fd, *line, "Malloc failed!");
+		safe_free(*line);
+		*line = tmp;
+	}
+	return (tmp);
+}
+
+static int	check_colorcode(char **line, t_map *map, int fd, char id)
 {
 	int		i;
 	char	*tmp;
 
 	tmp = NULL;
 	if (*line)
-	{
-		tmp = ft_strtrim(*line, "FC \n");
-		if (tmp == NULL)
-			systemfail(map, fd, *line, "Malloc failed!");
-		safe_free(*line);
-		*line = tmp;
-	}
+		tmp = check_colorcode_helper(line, map, fd, id);
 	else
 		return (0);
 	i = -1;
@@ -56,13 +74,13 @@ static int	check_colorcode(char **line, t_map *map, int fd)
 //converts a single line in the format 0,0,0 to color code
 //IMPORTANT: check if format is correct before
 //free line in all cases!!!
-int	rgb_to_hex(char *line, t_map *map, int fd)
+int	rgb_to_hex(char *line, t_map *map, int fd, char id)
 {
 	int	i;
 	int	j;
 	int	rgb[3];
 
-	if (!check_colorcode(&line, map, fd))
+	if (!check_colorcode(&line, map, fd, id))
 		systemfail(map, fd, line, "Color codes are invalid!");
 	i = 0;
 	j = 0;

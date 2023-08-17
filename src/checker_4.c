@@ -26,3 +26,26 @@ int	check_neighbors(t_map *map, int x, int y)
 		return (0);
 	return (1);
 }
+
+//use GNL to read first line, open close, first line has to be "/* XPM */"
+int	check_xpmcontent(char *path)
+{
+	int		fd;
+	char	*tmp;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	tmp = get_next_line(fd);
+	if (!tmp)
+	{
+		buffer_cleaner(fd, tmp);
+		return (0);
+	}
+	if (ft_strncmp(tmp, "/* XPM */", 9))
+	{
+		free(tmp);
+		return (0);
+	}
+	return (1);
+}

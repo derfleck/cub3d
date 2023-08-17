@@ -19,6 +19,8 @@ char	*fill_params(char *line, t_map *map, int fd)
 		systemfail(map, fd, tmp, "Texture must be .xpm file!");
 	if (!check_file(tmp))
 		systemfail(map, fd, tmp, "Texture file cannot be accessed!");
+	if (!check_xpmcontent(tmp))
+		systemfail(map, fd, tmp, "Texture file is corrupt!");
 	return (tmp);
 }
 
@@ -79,6 +81,9 @@ static void	get_params(int fd, t_map *map)
 		map->path[NORTH] && map->ceiling && map->floor)
 			break ;
 	}
+	if (!map->path[SOUTH] || !map->path[WEST] || !map->path[EAST] || \
+	!map->path[NORTH])
+		systemfail(map, fd, NULL, "File is empty!");
 }
 
 int	get_lines(t_map *map, char *file)
