@@ -108,11 +108,9 @@ int	get_map(t_map *map, int fd, char *line, char *file)
 	if (!save_map(fd2, line, map))
 		safe_free_fd_params_cmap(map, fd2);
 	buffer_cleaner(fd2, line);
-	//close_fd(fd2, map);
 	if (!trim_newlines(map) || !count_rows(map) || \
 	!count_columns(map) || !check_map_validity(map))
 		safe_free_fd_params_cmap(map, 0);
 	cmap_to_imap(map);
 	return (1);
 }
-

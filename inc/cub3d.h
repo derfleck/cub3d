@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/16 18:16:52 by rmocsai          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef CUB3D_H
 # define CUB3D_H
 # include "../mlx_linux/mlx.h"
@@ -64,35 +52,35 @@ typedef enum e_dir {
 typedef struct s_map	t_map;
 
 typedef struct s_player {
-	double	player[2];
-	double	plane[2];
-	double	look_dir[2];
-	t_map	*map;
-	double	camera_x;
-	double	raydir[2];
-	double	sidedist[2];
-	double	deltadist[2];
-	int		step[2];
-	double	perpwalldist;
-	int		side;
-	double	wall_x;
-	double	tex_step;
-	double	tex_pos;
-	int		wall_height;
-	int		tex_i[2];
-	int		screen_pos[2];
-	clock_t	prev_time;
+	double		player[2];
+	double		plane[2];
+	double		look_dir[2];
+	t_map		*map;
+	double		camera_x;
+	double		raydir[2];
+	double		sidedist[2];
+	double		deltadist[2];
+	int			step[2];
+	double		perpwalldist;
+	int			side;
+	double		wall_x;
+	double		tex_step;
+	double		tex_pos;
+	int			wall_height;
+	int			tex_i[2];
+	int			screen_pos[2];
+	clock_t		prev_time;
 }	t_player;
 
 typedef struct s_map {
-	int		index;
-	char	**cmap;
-	int		**map;
-	int		max[2];
-	char	**path;
-	int		ceiling;
-	int		floor;
-	char	dir;
+	int			index;
+	char		**cmap;
+	int			**map;
+	int			max[2];
+	char		**path;
+	int			ceiling;
+	int			floor;
+	char		dir;
 
 	t_img		tex[4];
 	double		walk_speed;
@@ -120,6 +108,7 @@ void	err_before_mall(char *str);
 void	systemfail(t_map *map, int fd, char *str, char *message);
 void	safe_free_fd_params_cmap(t_map *map, int fd);
 void	free_all_previous(t_map *map, int i);
+void	safe_free_map(t_map *map);
 void	free_all_no_exit(t_map *map);
 void	free_all_with_exit(t_map *map);
 void	buffer_cleaner(int fd, char *str);

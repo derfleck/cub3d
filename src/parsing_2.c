@@ -99,7 +99,7 @@ void	cmap_to_imap(t_map *map)
 		if (!map->map[i])
 			free_all_previous(map, i);
 		j = -1;
-		while (++j < map->max[X])
+		while (++j < map->max[X] && map->cmap[i][j])
 		{
 			if (map->cmap[i][j] == '0')
 				map->map[i][j] = 0;

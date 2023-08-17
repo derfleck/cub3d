@@ -6,7 +6,7 @@
 #    By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 14:51:37 by mleitner          #+#    #+#              #
-#    Updated: 2023/08/16 13:19:36 by rmocsai          ###   ########.fr        #
+#    Updated: 2023/08/17 09:57:16 by rmocsai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,12 @@ DEBUG			:= -g
 
 SRCSDIR			:= ./src/
 SRCSLIST		:=	main.c \
-					error.c \
-					colors.c \
-					parsing.c \
+					error_1.c \
+					error_2.c \
+					error_3.c \
+					parsing_1.c \
 					parsing_2.c \
+					colors.c \
 					checker_1.c \
 					checker_2.c \
 					checker_3.c \

@@ -38,7 +38,7 @@ int	ends_with(char *str, char *key)
 
 	start = (int)(ft_strlen(str) - ft_strlen(key));
 	if (start <= 0)
-		return (1);
+		return (0);
 	i = 0;
 	while (start && str[start] && key[i] && (str[start] == key[i]))
 	{
