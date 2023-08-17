@@ -34,12 +34,12 @@ void	linecheck_helper2(t_map *map, char *line, int fd, char c)
 	{
 		if (map->floor)
 			systemfail(map, fd, line, "Invalid instruction count");
-		map->floor = rgb_to_hex(line, map, fd);
+		map->floor = rgb_to_hex(line, map, fd, 'F');
 	}
 	else if (c == 'C')
 	{
 		if (map->ceiling)
 			systemfail(map, fd, line, "Invalid instruction count");
-		map->ceiling = rgb_to_hex(line, map, fd);
+		map->ceiling = rgb_to_hex(line, map, fd, 'C');
 	}
 }

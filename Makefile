@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+         #
+#    By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/17 12:57:01 by mleitner          #+#    #+#              #
-#    Updated: 2023/08/17 13:00:02 by mleitner         ###   ########.fr        #
+#    Updated: 2023/08/17 14:44:43 by rmocsai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,6 @@ SRCSLIST		:= main.c\
 					minimap_raycast.c \
 					error_1.c \
 					error_2.c \
-					error_3.c \
 					parsing_1.c \
 					parsing_2.c \
 					colors.c \
