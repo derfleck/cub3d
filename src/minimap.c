@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:17:10 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 14:35:30 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:30:46 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,12 @@ static void	get_minimap(t_map *map)
 {
 	int	start[2];
 
+	start[X] = (int)round(map->play.player[X] - ((double)map->mini_max[X] / 2));
 	if (map->max[X] == map->mini_max[X])
 		start[X] = 0;
-	else
-		start[X] = (int)map->play.player[X] - (map->mini_max[X] / 2);
+	start[Y] = (int)round(map->play.player[Y] - ((double)map->mini_max[Y] / 2));
 	if (map->max[Y] == map->mini_max[Y])
 		start[Y] = 0;
-	else
-		start[Y] = (int)map->play.player[Y] - (map->mini_max[Y] / 2);
 	if (start[X] < 0)
 		map->mini_start[X] = 0;
 	else
@@ -68,8 +66,8 @@ static void	set_dimensions(t_map *map)
 		map->mini_max[X] = 30;
 	else
 		map->mini_max[X] = map->max[X];
-	if (map->max[Y] > 20)
-		map->mini_max[Y] = 20;
+	if (map->max[Y] > 24)
+		map->mini_max[Y] = 24;
 	else
 		map->mini_max[Y] = map->max[Y];
 }
@@ -79,7 +77,7 @@ static void	draw_player(t_map *map)
 	int		pos[2];
 
 	pos[X] = (int)(GRID * (map->play.player[X] - map->mini_start[X]));
-	pos[Y] = (int)(GRID * (map->play.player[Y]) - map->mini_start[Y]);
+	pos[Y] = (int)(GRID * (map->play.player[Y] - map->mini_start[Y]));
 	mini_raycast(map, pos);
 	ft_mlx_pixel_put(map->mlx.img, pos[X], pos[Y], BLACK);
 }
