@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 18:53:29 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 16:57:01 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int	loop_draw(t_map *map)
 	movement(map);
 	draw_background(map);
 	raycast(map);
+	draw_minimap(map);
 	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->img->img, 0, 0);
 	return (0);
 }
