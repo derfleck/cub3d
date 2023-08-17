@@ -1,0 +1,7 @@
+cub3D
+.vscode
+*.txt
+tags
+*.o
+obj/
+mlx_linux/

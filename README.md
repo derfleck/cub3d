@@ -41,3 +41,6 @@ I highly recommend the [Game Engine Black Book: Wolfenstein 3D, 2nd Edition](htt
 - 
 
 
+Testers:
+
+https://github.com/mlaraki/cub3D_leaks_maps_tester

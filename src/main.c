@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:46:36 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/16 13:00:16 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 12:44:13 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,3 +166,4 @@ int	main(int argc, char **argv)
 	create_window(&map);
 	return (0);
 }
+
