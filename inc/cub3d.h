@@ -6,7 +6,7 @@
 /*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 16:48:20 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:07:11 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,36 +175,29 @@ void	walk(t_map *map, int dir);
 void	strafe(t_map *map, int dir);
 void	rotate(t_map *map, double ang);
 
-//utils
-void	free_int_arr(int **arr, int size);
-
 /* Check input */
 t_map	*check_input(int argc, char **argv, t_map *map);
 int		check_file(char *file);
 int		ends_with(char *str, char *key);
 int		check_map_validity(t_map *map);
 int		check_walls(t_map *map);
-int		check_neighbors(t_map *map, int x, int y);
-int		check_xpmcontent(char *path);
+int		get_start_position(t_map *map);
 
 /* Error handling */
 void	safe_free(void *ptr);
 void	safe_free_params(t_map *map);
 void	safe_free_cmap(t_map *map);
+void	free_int_arr(int **arr, int size);
 void	err_before_mall(char *str);
 void	systemfail(t_map *map, int fd, char *str, char *message);
 void	safe_free_fd_params_cmap(t_map *map, int fd);
 void	free_all_previous(t_map *map, int i);
-void	safe_free_map(t_map *map);
-void	free_all_no_exit(t_map *map);
-void	free_all_with_exit(t_map *map);
 void	buffer_cleaner(int fd, char *str);
 
 /* Parsing */
 int		get_lines(t_map *map, char *file);
 int		rgb_to_hex(char *line, t_map *map, int fd, char id);
 int		get_map(t_map *map, int fd, char *line, char *file);
-char	*trim_spaces(char *line, t_map *map, int fd);
 char	*fill_params(char *line, t_map *map, int fd);
 int		count_rows(t_map *map);
 int		count_columns(t_map *map);

@@ -10,16 +10,6 @@ void	safe_free_cmap(t_map *map)
 	safe_free(map->cmap);
 }
 
-void	safe_free_map(t_map *map)
-{
-	int	i;
-
-	i = -1;
-	while (++i < map->max[Y])
-		safe_free(map->map[i]);
-	safe_free(map->map);
-}
-
 void	safe_free_fd_params_cmap(t_map *map, int fd)
 {
 	char	*str;
@@ -43,4 +33,16 @@ void	free_all_previous(t_map *map, int i)
 		safe_free(map->map[j]);
 	safe_free(map->map);
 	exit (1);
+}
+
+//frees int array up to a certain specified size
+void	free_int_arr(int **arr, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+		free(arr[i++]);
+	if (arr)
+		free(arr);
 }

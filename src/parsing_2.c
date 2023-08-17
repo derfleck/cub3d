@@ -1,5 +1,6 @@
 #include "../inc/cub3d.h"
 
+/* trims newlines from map content only! */
 int	trim_newlines(t_map *map)
 {
 	char	*tmp;
@@ -23,7 +24,8 @@ int	trim_newlines(t_map *map)
 	return (1);
 }
 
-// Checks if properly null terminated too, can doublecheck max[Y]
+/* Checks number of map strings,
+can doublecheck max[Y] */
 int	count_rows(t_map *map)
 {
 	int	count;
@@ -41,7 +43,7 @@ int	count_rows(t_map *map)
 	return (count);
 }
 
-// multiple line length, count the longest!!!
+// Map check: multiple line length, count the longest!!!
 int	count_columns(t_map *map)
 {
 	int	max;

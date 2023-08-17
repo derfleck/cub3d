@@ -2,11 +2,13 @@
 
 SO ./tiles/south.xpm 
 
-WE ./tiles/west.xpm
+WE ./tiles/exit.xpm
 
 EA ./tiles/east.xpm
 
 NO    ./tiles/north.xpm   
+
+
 
  C  198,        47, 200
 

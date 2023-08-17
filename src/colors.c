@@ -6,7 +6,7 @@
 /*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:16:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 14:13:58 by rmocsai          ###   ########.fr       */
+/*   Updated: 2023/08/17 17:48:31 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*check_colorcode_helper(char **line, t_map *map, int fd, char id)
 	tmp = NULL;
 	if (id == 'F')
 	{
-		tmp = ft_strtrim(*line, "F \n");
+		tmp = ft_strtrim(*line, "F ");
 		if (tmp == NULL)
 			systemfail(map, fd, *line, "Malloc failed!");
 		safe_free(*line);
@@ -43,7 +43,7 @@ static char	*check_colorcode_helper(char **line, t_map *map, int fd, char id)
 	}
 	if (id == 'C')
 	{
-		tmp = ft_strtrim(*line, "C \n");
+		tmp = ft_strtrim(*line, "C ");
 		if (tmp == NULL)
 			systemfail(map, fd, *line, "Malloc failed!");
 		safe_free(*line);

@@ -1,26 +1,18 @@
 #include "../inc/cub3d.h"
 
-/*  */ 
-char	*fill_params(char *line, t_map *map, int fd)
+/* Trims spaces and newline from identifiers */
+static char	*trim_spaces(char *line, t_map *map, int fd)
 {
 	char	*tmp;
 
 	tmp = NULL;
 	if (line)
 	{
-		tmp = ft_strtrim(line + 2, " \n");
-		if (tmp == NULL)
+		tmp = ft_strtrim(line, " \n");
+		if (!tmp)
 			systemfail(map, fd, line, "Malloc failed!");
 		safe_free(line);
 	}
-	else
-		systemfail(map, fd, line, "System failure!");
-	if (!ends_with(tmp, ".xpm"))
-		systemfail(map, fd, tmp, "Texture must be .xpm file!");
-	if (!check_file(tmp))
-		systemfail(map, fd, tmp, "Texture file cannot be accessed!");
-	if (!check_xpmcontent(tmp))
-		systemfail(map, fd, tmp, "Texture file is corrupt!");
 	return (tmp);
 }
 

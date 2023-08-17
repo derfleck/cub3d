@@ -6,21 +6,6 @@ void	close_fd(int fd, t_map *map)
 		systemfail(map, fd, NULL, "Failed to close map file.");
 }
 
-char	*trim_spaces(char *line, t_map *map, int fd)
-{
-	char	*tmp;
-
-	tmp = NULL;
-	if (line)
-	{
-		tmp = ft_strtrim(line, " \n");
-		if (!tmp)
-			systemfail(map, fd, line, "Malloc failed!");
-		safe_free(line);
-	}
-	return (tmp);
-}
-
 void	linecheck_helper1(t_map *map, char *line, int fd, int dir)
 {
 	if (map->path[dir] != NULL && map->path[dir][0])
@@ -42,16 +27,4 @@ void	linecheck_helper2(t_map *map, char *line, int fd, char c)
 			systemfail(map, fd, line, "Invalid instruction count");
 		map->ceiling = rgb_to_hex(line, map, fd, 'C');
 	}
-}
-
-//frees int array up to a certain specified size
-void	free_int_arr(int **arr, int size)
-{
-	int	i;
-
-	i = 0;
-	while (i < size)
-		free(arr[i++]);
-	if (arr)
-		free(arr);
 }
