@@ -3,6 +3,8 @@
 
 Passed with **115**/100
 
+![Screenshot from the game](https://github.com/derfleck/cub3d/assets/34111210/aa0ca6c1-745f-4118-9330-829761020c4b)
+
 cub3d is a project that challenges you to recreate game history. Your goal is to build a simple pseudo-3D-game using an approach called ray casting. This has been pioneered in 1993 by id Software with the title [Wolfenstein 3D](https://github.com/id-Software/wolf3d) (depending on your age you might know its successors [Return to Castle Wolfenstein](https://github.com/id-Software/RTCW-SP), Wolfenstein: New Order or even its predecessor Castle Wolfenstein).
 
 Ray casting allows you to render 2D images of simple 3D scenes. For the full explanation, have a look at the linked tutorials in the resources section.
