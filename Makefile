@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+         #
+#    By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/17 12:57:01 by mleitner          #+#    #+#              #
-#    Updated: 2023/08/17 17:00:56 by mleitner         ###   ########.fr        #
+#    Updated: 2023/08/18 18:02:54 by mleitner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,25 +61,31 @@ HEADDIR			:= ./inc/
 LIBFTDIR		:= ./libft/
 LIBFT			:= ${LIBFTDIR}libft.a
 
-LIBS			:= -L${LIBFTDIR} -lft -lmlx -lXext -lX11 -lm
-INCS			:= -I${HEADDIR} -I${LIBFTDIR}
+MLXDIR			:= ./mlx_linux/
+MLX				:= ${MLXDIR}libmlx.a
+
+LIBS			:= -L${LIBFTDIR} -L${MLXDIR} -lft -lmlx -lXext -lX11 -lm
+INCS			:= -I${HEADDIR} -I${LIBFTDIR} -I${MLXDIR}
 
 .PHONY:			all clean fclean re norm bonus
 
 all:			${NAME}
 
-${NAME}:		${LIBFT} ${OBJSDIR} ${OBJS}
+${NAME}:		${MLX} ${LIBFT} ${OBJSDIR} ${OBJS}
 				@echo "$(CYAN)$(BOLD)Compilation is in progress...$(CLR_RM)"
 				${CC} ${FLAGS} ${DEBUG} ${OBJS} -o ${NAME} ${LIBS} ${INCS}
 				@echo "$(CYAN)$(BOLD)You can play with $(RED)cub3D$(CYAN) now!$(CLR_RM)"
 
-${BONUSNAME}:	${LIBFT} ${OBJSDIR} ${BONUSOBJS}
+${BONUSNAME}:	${MLX} ${LIBFT} ${OBJSDIR} ${BONUSOBJS}
 				@echo "$(CYAN)$(BOLD)Compilation is in progress...$(CLR_RM)"
 				${CC} ${FLAGS} ${DEBUG} ${BONUSOBJS} -o ${BONUSNAME} ${LIBS} ${INCS}
 				@echo "$(CYAN)$(BOLD)You can play with $(RED)cub3D_bonus$(CYAN) now!$(CLR_RM)"
 
 ${LIBFT}:
 				make -C ${LIBFTDIR}
+
+${MLX}:
+				make -C ${MLXDIR}
 
 ${OBJSDIR}%.o:	${SRCSDIR}%.c
 				${CC} ${FLAGS} ${DEBUG} ${INCS} -c $< -o $@
@@ -90,6 +96,7 @@ ${OBJSDIR}:
 clean:
 				${RM} -r ${OBJSDIR}
 				make -C ${LIBFTDIR} clean
+				make -C ${MLXDIR} clean
 
 fclean:			clean
 				${RM} ${NAME}
