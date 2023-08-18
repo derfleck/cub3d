@@ -6,7 +6,7 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 18:07:11 by rmocsai          ###   ########.fr       */
+/*   Updated: 2023/08/18 12:09:36 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,10 @@
 # define X 0
 # define Y 1
 # define TARGET_FPS 1500
-# define PRINT_FPS 0
+# define PRINT_FPS 1
 # define DBL_MIN 2.2250738585072014e-308
 # define DBL_MAX 1.7976931348623157e+308
-# ifndef M_PI
-#  define M_PI 3.14159265358979323846
-# endif
+# define M_PI 3.14159265358979323846
 
 typedef struct s_img {
 	void	*img;

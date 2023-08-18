@@ -6,11 +6,28 @@
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:16:47 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 14:27:58 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:08:32 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+//helper to shorten the set_direction function
+static void	direction_helper(t_map *map)
+{
+	map->play.plane[X] = 0.0;
+	map->play.look_dir[Y] = 0.0;
+	if (map->dir == 'E')
+	{
+		map->play.plane[Y] = 0.66;
+		map->play.look_dir[X] = 1.0;
+	}
+	else if (map->dir == 'W')
+	{
+		map->play.plane[Y] = -0.66;
+		map->play.look_dir[X] = -1.0;
+	}
+}
 
 //sets camera and looking vectors based on looking direction at start
 void	set_direction(t_map *map)
@@ -31,20 +48,7 @@ void	set_direction(t_map *map)
 		}
 	}
 	else if (map->dir == 'E' || map->dir == 'W')
-	{
-		map->play.plane[X] = 0.0;
-		map->play.look_dir[Y] = 0.0;
-		if (map->dir == 'E')
-		{
-			map->play.plane[Y] = 0.66;
-			map->play.look_dir[X] = 1.0;
-		}
-		else if (map->dir == 'W')
-		{
-			map->play.plane[Y] = -0.66;
-			map->play.look_dir[X] = -1.0;
-		}
-	}
+		direction_helper(map);
 }
 
 //draws floor and ceiling
