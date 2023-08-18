@@ -1,4 +1,16 @@
-#include "../inc/cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker_3_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/18 12:11:59 by mleitner          #+#    #+#             */
+/*   Updated: 2023/08/18 12:12:01 by mleitner         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/cub3d_bonus.h"
 
 /* Checks first and last row of map - can be only ones or spaces! */
 static int	check_first_n_last(char **map, int last)

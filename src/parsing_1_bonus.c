@@ -1,4 +1,16 @@
-#include "../inc/cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_1_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/18 12:16:37 by mleitner          #+#    #+#             */
+/*   Updated: 2023/08/18 12:16:46 by mleitner         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/cub3d_bonus.h"
 
 /* Trims spaces and newline from identifiers */
 static char	*trim_spaces(char *line, t_map *map, int fd)

@@ -1,4 +1,16 @@
-#include "../inc/cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker_2_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/18 12:11:50 by mleitner          #+#    #+#             */
+/*   Updated: 2023/08/18 12:11:53 by mleitner         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/cub3d_bonus.h"
 
 /* It also modifies player direction!! */
 static int	count_stuff(t_map *map, char c)

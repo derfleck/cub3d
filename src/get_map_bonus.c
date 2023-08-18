@@ -1,4 +1,16 @@
-#include "../inc/cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_map_bonus.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/18 12:12:46 by mleitner          #+#    #+#             */
+/*   Updated: 2023/08/18 12:12:49 by mleitner         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/cub3d_bonus.h"
 
 /* Don't forget to Null terminate char**   */
 static int	save_map(int fd2, char *line, t_map *map)

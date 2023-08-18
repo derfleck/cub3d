@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minimap_raycast.c                                  :+:      :+:    :+:   */
+/*   minimap_raycast_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:16:11 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/17 18:26:45 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:15:41 by mleitner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3d.h"
+#include "../inc/cub3d_bonus.h"
 
 static void	mini_check_hit(t_ray *ptr)
 {
