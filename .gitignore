@@ -1,8 +1,8 @@
 cub3D
+cub3D_bonus
 .vscode
 *.txt
 tags
 *.o
 *.a
 obj/
-mlx_linux/
