@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:16:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/18 12:12:14 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:07:58 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static int	check_colorcode(char **line, t_map *map, int fd, char id)
 {
 	int		i;
 	char	*tmp;
+	int		commas;
 
 	tmp = NULL;
 	if (*line)
@@ -63,11 +64,18 @@ static int	check_colorcode(char **line, t_map *map, int fd, char id)
 	else
 		return (0);
 	i = -1;
+	commas = 0;
 	while (tmp[++i])
 	{
 		if (!ft_strchr("0123456789 ,", tmp[i]))
 			systemfail(map, fd, *line, "Color codes are invalid!");
+		if (tmp[i] == ',')
+			commas++;
 	}
+	if (commas != 2)
+		systemfail(map, fd, *line, "Color codes are invalid!");
+	if (!check_colorcode_proper(tmp))
+		systemfail(map, fd, *line, "Color codes are invalid!");
 	return (1);
 }
 

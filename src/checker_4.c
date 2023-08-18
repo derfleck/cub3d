@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 12:13:05 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/18 12:13:06 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:36:32 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,30 @@ char	*fill_params(char *line, t_map *map, int fd)
 	if (!check_xpmcontent(tmp))
 		systemfail(map, fd, tmp, "Texture file is corrupt!");
 	return (tmp);
+}
+
+int	check_colorcode_proper(char *s)
+{
+	int	i;
+	int	len;
+
+	i = -1;
+	len = ft_strlen(s);
+	if (!s || !len || !ft_isdigit((int)s[++i]))
+		return (0);
+	while (s[++i])
+	{
+		while (s[i] && (s[i] == ' ' || ft_isdigit((int)s[i])))
+			i++;
+		if (s[i] == ',' && s[i + 1])
+		{
+			while (s[++i] && s[i] == ' ' && s[i + 1])
+				continue ;
+			if (s[i + 1] && (!ft_isdigit((int)s[i + 1]) && s[i] != ' '))
+				return (0);
+		}
+	}
+	if (!ft_isdigit(s[len - 1]))
+		return (0);
+	return (1);
 }

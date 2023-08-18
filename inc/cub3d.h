@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleitner <mleitner@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: rmocsai <rmocsai@student.42.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:38:57 by mleitner          #+#    #+#             */
-/*   Updated: 2023/08/18 12:09:36 by mleitner         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:08:39 by rmocsai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ int		ends_with(char *str, char *key);
 int		check_map_validity(t_map *map);
 int		check_walls(t_map *map);
 int		get_start_position(t_map *map);
+int		check_colorcode_proper(char *s);
 
 /* Error handling */
 void	safe_free(void *ptr);
